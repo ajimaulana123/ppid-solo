@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface Member {
   name: string;
   position: string;
@@ -24,10 +26,12 @@ export const OrganizationStructure = ({ members }: OrganizationStructureProps) =
             <div className="relative">
               <div className="w-28 h-28 mx-auto mb-6 rounded-full bg-white p-2 shadow-md group-hover:shadow-lg transition-shadow">
                 {member.image ? (
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-full rounded-full object-cover"
+                  <Image
+                    src={member.image || '/placeholder.jpg'}
+                    alt={member.name}
+                    width={100}
+                    height={100}
+                    className="rounded-full"
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-blue-100 flex items-center justify-center">
