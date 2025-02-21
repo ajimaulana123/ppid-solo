@@ -125,8 +125,7 @@ const navItems: NavItemType[] = [
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -147,6 +146,16 @@ export const Navbar = () => {
     }
     return pathname.startsWith(href);
   };
+
+  const toggleMenu = (href: string) => {
+    setOpenMenus(prev => 
+      prev.includes(href) 
+        ? prev.filter(item => item !== href)
+        : [...prev, href]
+    );
+  };
+
+  const isMenuOpen = (href: string) => openMenus.includes(href);
 
   return (
     <>
@@ -213,48 +222,43 @@ export const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-0 right-0 border-t bg-white w-full"
-              style={{
-                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-              }}
+              className="absolute left-0 right-0 border-t bg-white w-full shadow-lg"
             >
               <div className="container mx-auto max-h-[80vh] overflow-y-auto">
                 {navItems.map((item) => (
-                  <div
-                    key={item.href}
-                    className="border-b last:border-b-0 group"
-                    onMouseEnter={() => setHoveredItem(item.href)}
-                    onMouseLeave={() => {
-                      setHoveredItem(null);
-                      setHoveredSubItem(null);
-                    }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => !item.children && setIsOpen(false)}
-                      className={`flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors
-                        ${isActive(item.href)
-                          ? 'text-blue-600 bg-blue-50/50'
-                          : 'text-gray-700'
-                        }`}
-                    >
-                      <span className="font-medium">{item.label}</span>
-                      {item.children && (
-                        <motion.svg
+                  <div key={item.href} className="border-b last:border-b-0">
+                    {item.children ? (
+                      <div
+                        onClick={() => toggleMenu(item.href)}
+                        className={`flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors
+                          ${isActive(item.href) ? 'text-blue-600 bg-blue-50/50' : 'text-gray-700'}`}
+                      >
+                        <span className="font-medium">{item.label}</span>
+                        <motion.svg 
                           className="w-5 h-5 text-gray-400"
-                          animate={{ rotate: hoveredItem === item.href ? 180 : 0 }}
+                          animate={{ rotate: isMenuOpen(item.href) ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
-                          fill="none"
-                          stroke="currentColor"
+                          fill="none" 
+                          stroke="currentColor" 
                           viewBox="0 0 24 24"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </motion.svg>
-                      )}
-                    </Link>
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`block px-6 py-4 hover:bg-gray-50 transition-colors
+                          ${isActive(item.href) ? 'text-blue-600 bg-blue-50/50' : 'text-gray-700'}`}
+                      >
+                        <span className="font-medium">{item.label}</span>
+                      </Link>
+                    )}
+
                     {item.children && (
                       <AnimatePresence>
-                        {hoveredItem === item.href && (
+                        {isMenuOpen(item.href) && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
@@ -263,53 +267,44 @@ export const Navbar = () => {
                             className="bg-gray-50/50 overflow-hidden"
                           >
                             {item.children.map((child) => (
-                              <div
-                                key={child.href}
-                                className="border-b last:border-b-0"
-                                onMouseEnter={() => setHoveredSubItem(child.href)}
-                                onMouseLeave={() => setHoveredSubItem(null)}
-                              >
-                                <Link
-                                  href={child.href}
-                                  className={`block px-8 py-3 hover:bg-gray-100 transition-colors ${
-                                    isActive(child.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'
-                                  }`}
+                              <div key={child.href}>
+                                <div
+                                  onClick={() => child.children && toggleMenu(child.href)}
+                                  className={`flex items-center justify-between px-8 py-3 cursor-pointer hover:bg-gray-100 transition-colors
+                                    ${isActive(child.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'}`}
                                 >
-                                  <div className="flex items-center justify-between">
-                                    <span>{child.label}</span>
-                                    {child.children && (
-                                      <motion.svg
-                                        className="w-4 h-4"
-                                        animate={{ rotate: hoveredSubItem === child.href ? 90 : 0 }}
-                                        transition={{ duration: 0.2 }}
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                      >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                      </motion.svg>
-                                    )}
-                                  </div>
-                                </Link>
+                                  <span>{child.label}</span>
+                                  {child.children && (
+                                    <motion.svg 
+                                      className="w-4 h-4"
+                                      animate={{ rotate: isMenuOpen(child.href) ? 90 : 0 }}
+                                      transition={{ duration: 0.2 }}
+                                      fill="none" 
+                                      stroke="currentColor" 
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </motion.svg>
+                                  )}
+                                </div>
 
                                 {child.children && (
                                   <AnimatePresence>
-                                    {hoveredSubItem === child.href && (
+                                    {isMenuOpen(child.href) && (
                                       <motion.div
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: "auto" }}
                                         exit={{ opacity: 0, height: 0 }}
                                         transition={{ duration: 0.2 }}
-                                        className="pl-4 bg-gray-50/50 overflow-hidden"
+                                        className="pl-4 bg-gray-50/50"
                                       >
                                         {child.children.map((subChild) => (
                                           <Link
                                             key={subChild.href}
                                             href={subChild.href}
                                             onClick={() => setIsOpen(false)}
-                                            className={`block px-8 py-2 hover:bg-gray-100 transition-colors ${
-                                              isActive(subChild.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'
-                                            }`}
+                                            className={`block px-8 py-2 hover:bg-gray-100 transition-colors
+                                              ${isActive(subChild.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'}`}
                                           >
                                             {subChild.label}
                                           </Link>
