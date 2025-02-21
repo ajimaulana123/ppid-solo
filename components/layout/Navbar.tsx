@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navItems: NavItemType[] = [
   { label: "Beranda", href: "/" },
-  { 
-    label: "Profil", 
+  {
+    label: "Profil",
     href: "/profil",
     children: [
       {
@@ -17,7 +17,13 @@ const navItems: NavItemType[] = [
         href: "/profil/pemerintah-kota",
         children: [
           { label: "Visi dan Misi", href: "/profil/pemerintah-kota/visi-misi" },
-          { label: "Ruang Lingkup", href: "/profil/pemerintah-kota/ruang-lingkup" }
+          { label: "Ruang Lingkup", href: "/profil/pemerintah-kota/ruang-lingkup" },
+          { label: "Organisasi Perangkat Daerah", href: "/profil/pemerintah-kota/opd" },
+          { label: "Struktur Organisasi", href: "/profil/pemerintah-kota/struktur-organisasi" },
+          { label: "Tugas dan Fungsi", href: "/profil/pemerintah-kota/tugas-fungsi" },
+          { label: "Profil Pimpinan", href: "/profil/pemerintah-kota/profil-pimpinan" },
+          { label: "Daftar Pejabat Struktural", href: "/profil/pemerintah-kota/pejabat-struktural" },
+          { label: "Satuan dan Unit Kerja", href: "/profil/pemerintah-kota/satuan-unit-kerja" }
         ]
       },
       {
@@ -25,7 +31,10 @@ const navItems: NavItemType[] = [
         href: "/profil/ppid",
         children: [
           { label: "Profil PPID", href: "/profil/ppid/profile" },
-          { label: "Visi Misi PPID", href: "/profil/ppid/visi-misi" }
+          { label: "Visi Misi PPID", href: "/profil/ppid/visi-misi" },
+          { label: "Struktur Organisasi PPID", href: "/profil/ppid/struktur-organisasi" },
+          { label: "Tugas dan Fungsi", href: "/profil/ppid/tugas-fungsi" },
+          { label: "Dasar Hukum PPID", href: "/profil/ppid/dasar-hukum" }
         ]
       }
     ]
@@ -47,10 +56,14 @@ const navItems: NavItemType[] = [
     href: "/standar-layanan",
     children: [
       { label: "Prosedur Pelayanan Informasi Publik", href: "/standar-layanan/prosedur-pelayanan" },
-      { label: "Prosedur Pengelolaan Keberatan", href: "/standar-layanan/prosedur-keberatan" },
-      { label: "Prosedur Permohonan Penyelesaian Sengketa", href: "/standar-layanan/prosedur-sengketa" },
-      { label: "Prosedur Penanganan Sengketa", href: "/standar-layanan/penanganan-sengketa" },
+      { label: "Prosedur Pengelolaan Keberatan Informasi Publik", href: "/standar-layanan/prosedur-keberatan" },
+      { label: "Prosedur Permohonan Penyelesaian Sengketa Informasi", href: "/standar-layanan/prosedur-sengketa" },
+      { label: "Prosedur Penanganan Sengketa Informasi", href: "/standar-layanan/penanganan-sengketa" },
       { label: "SOP PPID", href: "/standar-layanan/sop" },
+      { label: "Kanal Layanan Informasi", href: "/standar-layanan/kanal-layanan" },
+      { label: "Waktu & Biaya Layanan", href: "/standar-layanan/waktu-biaya" },
+      { label: "Maklumat Informasi Publik", href: "/standar-layanan/maklumat" },
+      { label: "Libur Nasional Dan Cuti Bersama", href: "/standar-layanan/libur-cuti" }
     ],
   },
   {
@@ -70,16 +83,34 @@ const navItems: NavItemType[] = [
       { label: "Berita Transparansi", href: "/berita/transparansi" },
     ],
   },
-  { label: "Laporan", href: "/laporan" },
-  { label: "Galeri", href: "/galeri" },
   {
-    label: "Pusat Media",
-    href: "/pusat-media",
-    children: [
+    label: "Laporan", href: "/laporan", children: [
+      {
+        label: "Pemerintah Kota Surakarta",
+        href: "/profil/pemerintah-kota",
+        children: [
+          { label: "Laporan Keuangan Pemerintah Daerah (LKPD)", href: "/laporan/lkpd" },
+          { label: "Laporan Kinerja Instansi Pemerintah (LKIP)", href: "/laporan/lkip" },
+          { label: "Laporan Penyelenggaraan Pemerintahan Daerah (LPPD)", href: "/laporan/lppd" }
+        ]
+      },
+      {
+        label: "PPID Kota Surakarta",
+        href: "/profil/ppid",
+        children: [
+          { label: "Laporan PPID", href: "/profil/ppid/laporan" },
+          { label: "Statistik Layanan Informasi Publik", href: "/profil/ppid/statistik" },
+          { label: "Survei Layanan PPID", href: "/profil/ppid/survei" }
+        ]
+      }
+    ]
+  },
+  {
+    label: "Galeri", href: "/galeri", children: [
       { label: "Foto Kegiatan PPID", href: "/pusat-media/foto" },
-      { label: "Video Kegiatan PPID", href: "/pusat-media/video" },
+      { label: "Video Kegiatan PPID", href: "/pusat-media/video" }, 
       { label: "Komik OKE SIP", href: "/pusat-media/komik" },
-      { label: "Podcast OKE SIP", href: "/pusat-media/podcast" },
+      { label: "Podcast OKESIP", href: "/pusat-media/podcast" },
     ],
   },
   {
@@ -95,6 +126,7 @@ const navItems: NavItemType[] = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -119,15 +151,14 @@ export const Navbar = () => {
   return (
     <>
       {/* Top Header - Modern Glassmorphism Effect */}
-      <div className={`sticky top-0 z-50 bg-gradient-to-r from-blue-900 to-blue-800 text-white backdrop-blur-lg transition-shadow duration-300 ${
-        scrolled ? 'shadow-md' : ''
-      }`}>
+      <div className={`sticky top-0 z-50 bg-gradient-to-r from-blue-900 to-blue-800 text-white backdrop-blur-lg transition-shadow duration-300 ${scrolled ? 'shadow-md' : ''
+        }`}>
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-6">
             <Link href="/" className="bg-white/10 p-3 rounded-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
             </Link>
@@ -189,30 +220,33 @@ export const Navbar = () => {
             >
               <div className="container mx-auto max-h-[80vh] overflow-y-auto">
                 {navItems.map((item) => (
-                  <div 
-                    key={item.href} 
+                  <div
+                    key={item.href}
                     className="border-b last:border-b-0 group"
                     onMouseEnter={() => setHoveredItem(item.href)}
-                    onMouseLeave={() => setHoveredItem(null)}
+                    onMouseLeave={() => {
+                      setHoveredItem(null);
+                      setHoveredSubItem(null);
+                    }}
                   >
                     <Link
                       href={item.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => !item.children && setIsOpen(false)}
                       className={`flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors
                         ${isActive(item.href)
-                          ? 'text-blue-600 bg-blue-50/50' 
+                          ? 'text-blue-600 bg-blue-50/50'
                           : 'text-gray-700'
                         }`}
                     >
                       <span className="font-medium">{item.label}</span>
                       {item.children && (
-                        <motion.svg 
+                        <motion.svg
                           className="w-5 h-5 text-gray-400"
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
                           animate={{ rotate: hoveredItem === item.href ? 180 : 0 }}
                           transition={{ duration: 0.2 }}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </motion.svg>
@@ -223,23 +257,20 @@ export const Navbar = () => {
                         {hoveredItem === item.href && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
-                            animate={{ 
-                              opacity: 1, 
-                              height: "auto",
-                              transition: { duration: 0.2 }
-                            }}
-                            exit={{ 
-                              opacity: 0, 
-                              height: 0,
-                              transition: { duration: 0.2 }
-                            }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2 }}
                             className="bg-gray-50/50 overflow-hidden"
                           >
                             {item.children.map((child) => (
-                              <div key={child.href} className="border-b last:border-b-0">
+                              <div
+                                key={child.href}
+                                className="border-b last:border-b-0"
+                                onMouseEnter={() => setHoveredSubItem(child.href)}
+                                onMouseLeave={() => setHoveredSubItem(null)}
+                              >
                                 <Link
                                   href={child.href}
-                                  onClick={() => setIsOpen(false)}
                                   className={`block px-8 py-3 hover:bg-gray-100 transition-colors ${
                                     isActive(child.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'
                                   }`}
@@ -247,28 +278,45 @@ export const Navbar = () => {
                                   <div className="flex items-center justify-between">
                                     <span>{child.label}</span>
                                     {child.children && (
-                                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <motion.svg
+                                        className="w-4 h-4"
+                                        animate={{ rotate: hoveredSubItem === child.href ? 90 : 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                      </svg>
+                                      </motion.svg>
                                     )}
                                   </div>
                                 </Link>
 
                                 {child.children && (
-                                  <div className="pl-4 bg-gray-50/50">
-                                    {child.children.map((subChild) => (
-                                      <Link
-                                        key={subChild.href}
-                                        href={subChild.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className={`block px-8 py-2 hover:bg-gray-100 transition-colors ${
-                                          isActive(subChild.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'
-                                        }`}
+                                  <AnimatePresence>
+                                    {hoveredSubItem === child.href && (
+                                      <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="pl-4 bg-gray-50/50 overflow-hidden"
                                       >
-                                        {subChild.label}
-                                      </Link>
-                                    ))}
-                                  </div>
+                                        {child.children.map((subChild) => (
+                                          <Link
+                                            key={subChild.href}
+                                            href={subChild.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={`block px-8 py-2 hover:bg-gray-100 transition-colors ${
+                                              isActive(subChild.href) ? 'text-blue-600 bg-blue-50/80' : 'text-gray-600'
+                                            }`}
+                                          >
+                                            {subChild.label}
+                                          </Link>
+                                        ))}
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
                                 )}
                               </div>
                             ))}
