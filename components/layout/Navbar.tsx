@@ -18,7 +18,7 @@ const navItems: NavItemType[] = [
         children: [
           { label: "Visi dan Misi", href: "/profil/pemerintah-kota/visi-misi" },
           { label: "Ruang Lingkup", href: "/profil/pemerintah-kota/ruang-lingkup" },
-          { label: "Organisasi Perangkat Daerah", href: "/profil/pemerintah-kota/opd" },
+          { label: "Organisasi Perangkat Daerah", href: "/profil/pemerintah-kota/organisasi-perangkat-daerah" },
           { label: "Struktur Organisasi", href: "/profil/pemerintah-kota/struktur-organisasi" },
           { label: "Tugas dan Fungsi", href: "/profil/pemerintah-kota/tugas-fungsi" },
           { label: "Profil Pimpinan", href: "/profil/pemerintah-kota/profil-pimpinan" },

@@ -9,7 +9,6 @@ const PemerintahKotaPage = () => {
         <ProfileHero 
           title="Pemerintah Kota Surakarta"
           description="Pusat Informasi dan Layanan Pemerintah Kota Surakarta"
-          imageUrl="https://images.unsplash.com/photo-1622940197086-cd1a8fcf9d2f?auto=format&fit=crop&q=80"
         />
         
         {/* Informasi Umum */}

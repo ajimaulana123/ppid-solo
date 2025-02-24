@@ -1,21 +1,11 @@
-import Image from 'next/image';
-
 interface ProfileHeroProps {
   title: string;
   description: string;
-  imageUrl: string;
 }
 
-export const ProfileHero = ({ title, description, imageUrl }: ProfileHeroProps) => {
+export const ProfileHero = ({ title, description }: ProfileHeroProps) => {
   return (
     <div className="relative h-[400px]">
-      <Image
-        src={imageUrl}
-        alt={title}
-        fill
-        className="object-cover"
-        priority
-      />
       <div className="relative bg-gradient-to-r from-blue-900 to-blue-800 text-white overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
