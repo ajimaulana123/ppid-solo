@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileHero } from "@/components/profile/ProfileHero";
+import { ProfileHero } from "@/components/entities/HeroSections";
 
 const PemerintahKotaPage = () => {
   return (

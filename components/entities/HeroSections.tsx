@@ -1,11 +1,11 @@
-interface ProfileHeroProps {
+interface HeroSectionsProps {
   title: string;
   description: string;
 }
 
-export const ProfileHero = ({ title, description }: ProfileHeroProps) => {
+export const HeroSections = ({ title, description }: HeroSectionsProps) => {
   return (
-    <div className="relative h-[400px]">
+    <div className="relative">
       <div className="relative bg-gradient-to-r from-blue-900 to-blue-800 text-white overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">

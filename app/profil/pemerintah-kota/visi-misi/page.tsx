@@ -1,10 +1,11 @@
-import { ProfileHero } from "@/components/profile/ProfileHero";
-import { VisionMission } from "@/components/profile/VisionMission";
-import { OrganizationStructure } from "@/components/profile/OrganizationStructure";
+import { HeroSections } from "@/components/entities/HeroSections";
+import { VisiMission } from "@/components/entities/VisiMission";
 
 const visionMissionData = {
-  vision: "Terwujudnya pelayanan informasi yang transparan dan akuntabel untuk Surakarta yang lebih baik",
-  missions: [
+  firstTitle: "Visi",
+  firstDescription: "Terwujudnya pelayanan informasi yang transparan dan akuntabel untuk Surakarta yang lebih baik",
+  secondTitle: "Misi",
+  secondDescription: [
     "Meningkatkan kualitas layanan informasi publik",
     "Meningkatkan kualitas pengelolaan dan pelayanan informasi",
     "Meningkatkan kualitas SDM dalam pelayanan informasi",
@@ -12,31 +13,13 @@ const visionMissionData = {
   ]
 };
 
-const organizationData = {
-  members: [
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta"
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta"
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah"
-    }
-  ]
-};
-
 export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <ProfileHero title="Profil PPID" description="Pejabat Pengelola Informasi dan Dokumentasi (PPID) Kota Surakarta merupakan pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi di Pemerintah Kota Surakarta." />
+        <HeroSections title="Profil PPID" description="Pejabat Pengelola Informasi dan Dokumentasi (PPID) Kota Surakarta merupakan pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi di Pemerintah Kota Surakarta." />
         <div className="container mx-auto px-6 py-12 space-y-12">
-          <VisionMission {...visionMissionData} />
-          <OrganizationStructure members={organizationData.members} />
+          <VisiMission  content={visionMissionData} />
         </div>
       </main>
     </div>

@@ -1,13 +1,13 @@
 'use client';
 
-import { ProfileHero } from "@/components/profile/ProfileHero";
+import { HeroSections } from "@/components/entities/HeroSections";
 
 export default function OrganisasiPerangkatDaerahPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <ProfileHero
+        <HeroSections
           title="Organisasi Perangkat Daerah"
           description="Informasi mengenai struktur dan organisasi perangkat daerah Pemerintah Kota Surakarta"
         />
