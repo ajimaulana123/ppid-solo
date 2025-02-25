@@ -1,12 +1,12 @@
 "use client";
 
-import { ProfileHero } from "@/components/entities/HeroSections";
+import { HeroSections } from "@/components/entities/HeroSections";
 
 const PemerintahKotaPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <ProfileHero 
+        <HeroSections 
           title="Pemerintah Kota Surakarta"
           description="Pusat Informasi dan Layanan Pemerintah Kota Surakarta"
         />

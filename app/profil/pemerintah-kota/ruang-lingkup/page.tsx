@@ -1,5 +1,4 @@
 import { HeroSections } from "@/components/entities/HeroSections";
-import { time } from "console";
 
 const organizationFields = [
   "Pekerjaan umum dan penataan ruang",
