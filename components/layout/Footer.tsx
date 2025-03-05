@@ -2,7 +2,7 @@ export const Footer = () => {
   return (
     <>
            {/* Footer Section - Full Width */}
-      <footer className="relative overflow-hidden bg-gradient-to-r from-blue-900 to-blue-800 text-white mt-24">
+      <footer className="relative overflow-hidden bg-gradient-to-r from-blue-900 to-blue-800 text-white">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{

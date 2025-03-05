@@ -14,25 +14,28 @@ export default function OrganisasiPerangkatDaerahPage() {
         <div className="container mx-auto px-6 py-12">
           <div className="grid gap-8">
             {/* Main Information Section */}
-            <div className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg border border-gray-100">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
-              <div className="relative z-10 p-8">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800 group-hover:text-white transition-colors">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 -mr-16 -mt-16 bg-blue-200 rounded-full opacity-50" />
+              <div className="relative">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <span className="bg-blue-600 w-8 h-1 rounded-full"></span>
                   Dasar Hukum
                 </h2>
-                <p className="text-gray-600 leading-relaxed group-hover:text-blue-100 transition-colors">
-                  Organisasi Perangkat Daerah Pemerintah Kota Surakarta diatur dalam Peraturan Walikota Surakarta
-                  mengenai Organisasi dan Tata Kerja Perangkat Daerah Kota Surakarta.
+                <p className="text-gray-700 text-lg leading-relaxed">
+                Organisasi Perangkat Daerah Pemerintah Kota Surakarta diatur dalam Peraturan Walikota Surakarta
+                mengenai Organisasi dan Tata Kerja Perangkat Daerah Kota Surakarta.
                 </p>
               </div>
             </div>
 
             {/* PDF Viewer Section */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                Dokumen Peraturan
-              </h3>
-              <div className="aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden">
+            <div className="from-blue-50 to-blue-100 rounded-2xl shadow-lg p-8 relative overflow-hidden">
+              <div className="relative">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <span className="bg-blue-600 w-8 h-1 rounded-full"></span>
+                  Dokumen Peraturan
+                </h2>
+                <div className="aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden">
                 <iframe
                   src="/documents/perwal-opd-surakarta.pdf"
                   className="w-full h-full"
@@ -61,6 +64,7 @@ export default function OrganisasiPerangkatDaerahPage() {
                   </svg>
                   Unduh PDF
                 </a>
+              </div>
               </div>
             </div>
 
