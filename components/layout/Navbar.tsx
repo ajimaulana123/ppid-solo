@@ -120,18 +120,6 @@ const navItems: NavItemType[] = [
     ],
   },
   {
-    label: "Kanal Layanan",
-    href: "/kanal-layanan",
-    children: [
-      { label: "Waktu & Biaya Layanan", href: "/kanal-layanan/waktu-biaya" },
-      { label: "Maklumat Informasi Publik", href: "/kanal-layanan/maklumat" },
-      {
-        label: "Libur Nasional dan Cuti Bersama",
-        href: "/kanal-layanan/libur-cuti",
-      },
-    ],
-  },
-  {
     label: "Berita",
     href: "/berita",
     children: [

@@ -18,10 +18,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections
-          title="Prosedur Pelayanan Informasi Publik"
-          description="lorem "
-        />
+        <HeroSections title="SOP PPID" description="lorem " />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <ProsedurLayananEntity content={visionMissionData} />
         </div>

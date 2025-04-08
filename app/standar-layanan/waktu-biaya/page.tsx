@@ -1,5 +1,5 @@
 import { HeroSections } from "@/components/entities/HeroSections";
-import { ProsedurLayananEntity } from "@/components/entities/standar-layanan/ProsedurLayananEntity";
+import { WaktuBiayaEntity } from "@/components/entities/standar-layanan/WaktuBiayaEntity";
 
 const visionMissionData = {
   firstTitle: "Visi",
@@ -18,12 +18,9 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections
-          title="Prosedur Pelayanan Informasi Publik"
-          description="lorem "
-        />
+        <HeroSections title="SOP PPID" description="lorem " />
         <div className="container mx-auto px-6 py-12 space-y-12">
-          <ProsedurLayananEntity content={visionMissionData} />
+          <WaktuBiayaEntity content={visionMissionData} />
         </div>
       </main>
     </div>
