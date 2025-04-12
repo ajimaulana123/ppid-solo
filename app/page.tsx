@@ -122,7 +122,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
         {/* Open Data Section */}
         <div className="mt-16">
           <div className="flex justify-between items-center mb-8">
@@ -302,7 +301,7 @@ export default function Home() {
               >
                 {/* Decorative Side Border */}
                 <div className={`absolute left-0 top-0 bottom-0 w-1 bg-${region.color}-500`} />
-                
+
                 {/* Icon and Title Section */}
                 <div className="flex items-start gap-4 mb-6">
                   <div className={`bg-${region.color}-50 rounded-xl p-4 group-hover:scale-95 transition-transform duration-300`}>

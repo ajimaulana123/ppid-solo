@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image"
 
 interface NavItemType {
   label: string;
@@ -15,7 +16,7 @@ const navItems: NavItemType[] = [
   { label: "Beranda", href: "/" },
   {
     label: "Profil",
-    href: "/profil",
+    href: "/profil/pemerintah-kota/visi-misi",
     children: [
       {
         label: "Pemerintah Kota Surakarta",
@@ -54,7 +55,7 @@ const navItems: NavItemType[] = [
       },
       {
         label: "PPID Kota Surakarta",
-        href: "/profil/ppid",
+        href: "/profil/ppid/profile",
         children: [
           { label: "Profil PPID", href: "/profil/ppid/profile" },
           { label: "Visi Misi PPID", href: "/profil/ppid/visi-misi" },
@@ -70,7 +71,7 @@ const navItems: NavItemType[] = [
   },
   {
     label: "Informasi Publik",
-    href: "/informasi",
+    href: "/informasi/dip-kota",
     children: [
       {
         label: "Daftar Informasi Publik PPID Kota",
@@ -88,7 +89,7 @@ const navItems: NavItemType[] = [
   },
   {
     label: "Standar Layanan",
-    href: "/standar-layanan",
+    href: "/standar-layanan/prosedur-pelayanan",
     children: [
       {
         label: "Prosedur Pelayanan Informasi Publik",
@@ -121,7 +122,7 @@ const navItems: NavItemType[] = [
   },
   {
     label: "Berita",
-    href: "/berita",
+    href: "/berita/surakarta",
     children: [
       { label: "Berita Surakarta", href: "/berita/surakarta" },
       { label: "Berita Transparansi", href: "/berita/transparansi" },
@@ -129,7 +130,7 @@ const navItems: NavItemType[] = [
   },
   {
     label: "Laporan",
-    href: "/laporan",
+    href: "/laporan/lkpd",
     children: [
       {
         label: "Pemerintah Kota Surakarta",
@@ -153,29 +154,29 @@ const navItems: NavItemType[] = [
         label: "PPID Kota Surakarta",
         href: "/profil/ppid",
         children: [
-          { label: "Laporan PPID", href: "/profil/ppid/laporan" },
+          { label: "Laporan PPID", href: "/laporan/ppid" },
           {
             label: "Statistik Layanan Informasi Publik",
-            href: "/profil/ppid/statistik",
+            href: "/laporan/statistik",
           },
-          { label: "Survei Layanan PPID", href: "/profil/ppid/survei" },
+          { label: "Survei Layanan PPID", href: "/laporan/survei" },
         ],
       },
     ],
   },
   {
     label: "Galeri",
-    href: "/galeri",
+    href: "/galeri/foto",
     children: [
-      { label: "Foto Kegiatan PPID", href: "/pusat-media/foto" },
-      { label: "Video Kegiatan PPID", href: "/pusat-media/video" },
-      { label: "Komik OKE SIP", href: "/pusat-media/komik" },
-      { label: "Podcast OKESIP", href: "/pusat-media/podcast" },
+      { label: "Foto Kegiatan PPID", href: "/galeri/foto" },
+      { label: "Video Kegiatan PPID", href: "/galeri/video" },
+      { label: "Komik OKE SIP", href: "/galeri/komik" },
+      { label: "Podcast OKESIP", href: "/galeri/podcast" },
     ],
   },
   {
     label: "Kontak",
-    href: "/kontak",
+    href: "/kontak/faq",
     children: [
       { label: "FAQ", href: "/kontak/faq" },
       { label: "Kontak", href: "/kontak/hubungi" },
@@ -186,6 +187,8 @@ const navItems: NavItemType[] = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+  const [desktopOpenMenus, setDesktopOpenMenus] = useState<string | null>(null);
+  const [desktopOpenSubMenus, setDesktopOpenSubMenus] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
@@ -220,9 +223,30 @@ export const Navbar = () => {
 
   const isMenuOpen = (href: string) => !!openMenus[href];
 
+  // Desktop menu handlers
+  const handleDesktopMenuEnter = (href: string) => {
+    setDesktopOpenMenus(href);
+  };
+
+  const handleDesktopMenuLeave = () => {
+    setDesktopOpenMenus(null);
+    setDesktopOpenSubMenus(null);
+  };
+
+  const handleDesktopSubMenuEnter = (href: string) => {
+    setDesktopOpenSubMenus(href);
+  };
+
+  const handleDesktopSubMenuLeave = () => {
+    setDesktopOpenSubMenus(null);
+  };
+
+  // Close menus on navigation
   useEffect(() => {
     setIsOpen(false);
     setOpenMenus({});
+    setDesktopOpenMenus(null);
+    setDesktopOpenSubMenus(null);
   }, [pathname]);
 
   // Hitung tinggi header secara dinamis
@@ -245,22 +269,16 @@ export const Navbar = () => {
               className="bg-white/10 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-800"
               aria-label="Home"
             >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
+              <Image
+                src="/logo-ppid.png" // bisa dari public folder atau URL online
+                alt="Foto Kucing"
+                width={30}
+                height={30}
+                className="rounded-10"
+              />
             </Link>
-            <div className="hidden md:block">
-              <h1 className="text-lg font-bold tracking-tight">
+            <div>
+              <h1 className="text-sm lg:text-base font-bold tracking-tight">
                 PPID Kota Surakarta
               </h1>
               <p className="text-xs text-blue-100">
@@ -269,8 +287,135 @@ export const Navbar = () => {
             </div>
           </div>
 
+          {/* Desktop Navigation */}
+          <div className="hidden lg:block">
+            <div className="flex items-center">
+              {navItems.map((item) => (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => handleDesktopMenuEnter(item.href)}
+                  onMouseLeave={handleDesktopMenuLeave}
+                >
+                  {/* Top Level Nav Item */}
+                  <Link
+                    href={item.href}
+                    className={`px-2 py-2 text-xs font-medium transition-colors flex items-center gap-1
+                    ${
+                      isActive(item.href)
+                        ? "text-white bg-white/10"
+                        : "text-blue-100 hover:text-white hover:bg-white/5"
+                    }`}
+                    onClick={() => {
+                      if (!item.children) {
+                        handleDesktopMenuLeave();
+                      }
+                    }}
+                  >
+                    {item.label}
+                    {item.children && (
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    )}
+                  </Link>
+
+                  {/* First Level Dropdown */}
+                  {item.children && desktopOpenMenus === item.href && (
+                    <div 
+                      className="absolute left-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                    >
+                      <div className="py-1" role="menu" aria-orientation="vertical">
+                        {item.children.map((child) => (
+                          <div
+                            key={child.href}
+                            className="relative"
+                            onMouseEnter={() => handleDesktopSubMenuEnter(child.href)}
+                            onMouseLeave={handleDesktopSubMenuLeave}
+                          >
+                            {child.children ? (
+                              <div 
+                                className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between
+                                  ${
+                                    isActive(child.href)
+                                      ? "text-blue-600 bg-blue-50"
+                                      : "text-gray-700 hover:bg-gray-100"
+                                  }`}
+                              >
+                                {child.label}
+                                <svg
+                                  className="w-3 h-3 text-gray-500"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </div>
+                            ) : (
+                              <Link
+                                href={child.href}
+                                className={`block px-3 py-2 text-xs
+                                  ${
+                                    isActive(child.href)
+                                      ? "text-blue-600 bg-blue-50"
+                                      : "text-gray-700 hover:bg-gray-100"
+                                  }`}
+                                role="menuitem"
+                              >
+                                {child.label}
+                              </Link>
+                            )}
+
+                            {/* Second Level Dropdown */}
+                            {child.children && desktopOpenSubMenus === child.href && (
+                              <div className="absolute left-full top-0 mt-0 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                                <div className="py-1" role="menu" aria-orientation="vertical">
+                                  {child.children.map((subChild) => (
+                                    <Link
+                                      key={subChild.href}
+                                      href={subChild.href}
+                                      className={`block px-3 py-2 text-xs
+                                        ${
+                                          isActive(subChild.href)
+                                            ? "text-blue-600 bg-blue-50"
+                                            : "text-gray-700 hover:bg-gray-100"
+                                        }`}
+                                      role="menuitem"
+                                    >
+                                      {subChild.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="flex items-center gap-4">
-            <div className="flex gap-2">
+            <div className="hidden md:flex gap-2">
               {[
                 {
                   name: "facebook",
@@ -292,7 +437,7 @@ export const Navbar = () => {
                   aria-label={`${social.name} link`}
                 >
                   <svg
-                    className="w-4 h-4 text-white"
+                    className="w-3 h-3 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -310,7 +455,7 @@ export const Navbar = () => {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-white/10 p-2 rounded-lg hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-800"
+              className="bg-white/10 p-2 rounded-lg hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-800 lg:hidden"
               aria-label="Toggle menu"
               aria-expanded={isOpen}
             >
