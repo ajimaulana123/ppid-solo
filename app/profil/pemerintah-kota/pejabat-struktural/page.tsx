@@ -1,84 +1,11 @@
 "use client";
 
+// Components
 import { HeroSections } from "@/components/entities/HeroSections";
 import { PejabatStrukturalEntity } from "@/components/entities/PejabatStrukturalEntity";
 
-const dataPejabat = {
-  members: [
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Muda (IV/c)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah",
-      department: "Sekretariat Daerah",
-      workUnit: "Sekretariat Daerah",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Muda (IV/c)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah",
-      department: "Sekretariat Daerah",
-      workUnit: "Sekretariat Daerah",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta",
-      department: "Pemerintah Kota Surakarta",
-      workUnit: "Kantor Walikota",
-      rank: "Pembina Utama Muda (IV/c)",
-      lastUpdate: "2024"
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah",
-      department: "Sekretariat Daerah",
-      workUnit: "Sekretariat Daerah",
-      rank: "Pembina Utama Madya (IV/d)",
-      lastUpdate: "2024"
-    },
-  ],
-};
+// Data
+import { dataPejabat } from "./data";
 
 export default function PejabatStruktural() {
   return (
@@ -86,7 +13,7 @@ export default function PejabatStruktural() {
       <main>
         <HeroSections
           title="Daftar Pejabat Struktural"
-          description="lorem lorem"
+          description="Bertanggung jawab atas pelaksanaan kebijakan, pengelolaan administrasi pemerintahan, serta pelayanan publik di lingkungan Pemerintah Kota. Pejabat ini meliputi wali kota, wakil wali kota, sekretaris daerah, para asisten, kepala dinas, kepala badan, dan kepala bagian di lingkungan sekretariat daerah"
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <PejabatStrukturalEntity members={dataPejabat.members} />

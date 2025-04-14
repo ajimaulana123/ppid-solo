@@ -1,0 +1,17 @@
+export const organizationFields = [
+    "Pekerjaan umum dan penataan ruang",
+    "Perumahan dan kawasan permukiman",
+    "Penanaman modal",
+    "Perhubungan",
+    "Lingkungan hidup",
+    "Perindustrian",
+    "Pariwisata dan ekonomi kreatif",
+    "Perdagangan",
+    "Pendidikan",
+    "Kesehatan",
+    "Kebudayaan",
+    "Pengendalian penduduk dan keluarga berencana",
+    "Administrasi kependudukan dan pencatatan sipil",
+    "Kelautan dan perikanan",
+    "Ketenagakerjaan",
+];

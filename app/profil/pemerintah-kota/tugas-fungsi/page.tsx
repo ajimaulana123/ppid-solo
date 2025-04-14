@@ -1,16 +1,9 @@
+// Components
 import { HeroSections } from "@/components/entities/HeroSections";
 import { TugasFungsiEntity } from "@/components/entities/TugasFungsiEntity";
 
-const tugasFungsi = [
-    "Meningkatkan kualitas layanan informasi publik",
-    "Meningkatkan kualitas pengelolaan dan pelayanan informasi",
-    "Meningkatkan kualitas SDM dalam pelayanan informasi",
-    "Memperkuat monitoring dan evaluasi pelaksanaan layanan informasi publik",
-    "Meningkatkan kualitas layanan informasi publik",
-    "Meningkatkan kualitas pengelolaan dan pelayanan informasi",
-    "Meningkatkan kualitas SDM dalam pelayanan informasi",
-    "Memperkuat monitoring dan evaluasi pelaksanaan layanan informasi publik",
-];
+// Data
+import { tugasFungsi } from "./data";
 
 export default function TugasFungsi() {
   return (
@@ -18,7 +11,7 @@ export default function TugasFungsi() {
       <main>
         <HeroSections
           title="Tugas dan Fungsi"
-          description="lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsumlorem ipsum lorem ipsumlorem ipsum lorem ipsumlorem ipsum lorem "
+          description="Menyelenggarakan urusan pemerintahan daerah berdasarkan asas otonomi daerah dan tugas pembantuan. Balai Kota berperan sebagai pusat administrasi dan pelayanan publik, melaksanakan pembangunan daerah, serta mengkoordinasikan berbagai program dan kebijakan untuk kesejahteraan masyarakat Kota Surakarta."
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <TugasFungsiEntity tugasFungsi={tugasFungsi} />

@@ -1,22 +1,9 @@
+// Components
 import { HeroSections } from "@/components/entities/HeroSections";
 import { OrganizationStructure } from "@/components/entities/OrganizationStructure";
 
-const organizationData = {
-  members: [
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta",
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta",
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah",
-    },
-  ],
-};
+// Data
+import { organizationData } from "./data";
 
 export default function StrukturOrganisasi() {
   return (

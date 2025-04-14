@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import Image from 'next/image'
 
 interface DocumentItem {
   no: string;
@@ -9,8 +8,7 @@ interface DocumentItem {
   title: string;
   description: string;
   fileType: string;
-  fileSize: string;
-  fileIcon: string;
+  fileSize: string
 }
 
 interface DokumenEntityProps {
@@ -30,12 +28,7 @@ export const DokumenEntity = ({ items }: DokumenEntityProps) => {
     });
   }, [items, searchTerm]);
 
-  const getFileIcon = (fileType: string, fileIcon: string) => {
-    if (fileIcon) {
-      return (
-        <Image src={fileIcon} alt={`${fileType} icon`} className="w-8 h-8" />
-      );
-    }
+  const getFileIcon = (fileType: string) => {
 
     switch (fileType.toLowerCase()) {
       case "pdf":
@@ -156,7 +149,7 @@ export const DokumenEntity = ({ items }: DokumenEntityProps) => {
             <div className="flex flex-col h-full">
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0">
-                  {getFileIcon(item.fileType, item.fileIcon)}
+                  {getFileIcon(item.fileType)}
                 </div>
                 <div>
                   <div className="flex flex-wrap gap-2">

@@ -1,41 +1,15 @@
+// Components
 import { HeroSections } from "@/components/entities/HeroSections";
 import { ProfilPimpinanEntity } from "@/components/entities/ProfilPimpinanEntity";
 
-const organizationData = {
-  title: "Profil Pimpinan",
-  members: [
-    {
-      name: "Dr. H. Gibran Rakabuming Raka",
-      position: "Walikota Surakarta",
-    },
-    {
-      name: "Teguh Prakosa",
-      position: "Wakil Walikota Surakarta",
-    },
-    {
-      name: "Drs. Bambang Hardjanto",
-      position: "Sekretaris Daerah",
-    },
-  ],
-};
-
-const shortProfile = [
-  "Inspektorat Kota Surakarta",
-  "Badan Perencanaan Pembangunan Daerah Kota Surakarta",
-  "Badan Pengelolaan Keuangan dan Aset Daerah Kota Surakarta",
-  "Badan Pendapatan Daerah Kota Surakarta",
-  "Dinas Pendidikan Kota Surakarta",
-  "Dinas Kesehatan Kota Surakarta",
-  "Dinas Pekerjaan Umum dan Penataan Ruang Kota Surakarta",
-  "Dinas Perumahan, Kawasan Permukiman dan Pertanahan Kota Surakarta",
-  "Dinas Sosial Kota Surakarta",
-];
+// Data
+import { organizationData, shortProfile } from "./data";
 
 export default function ProfilPimpinan() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections title="Profil Pimpinan" description="Lorem lorem." />
+        <HeroSections title="Profil Pimpinan" description="Terdiri dari Walikota dan Wakil Walikota yang dipilih secara langsung oleh masyarakat melalui pemilihan kepala daerah. Dalam menjalankan tugasnya, pimpinan kota dibantu oleh perangkat daerah yang terdiri dari Sekretariat Daerah, Dinas-dinas, dan Badan-badan sesuai dengan kebutuhan daerah. Pimpinan kota bertanggung jawab dalam merumuskan kebijakan dan mengkoordinasikan pelaksanaan pembangunan untuk kesejahteraan masyarakat Kota Surakarta." />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <ProfilPimpinanEntity members={organizationData.members} />
 
