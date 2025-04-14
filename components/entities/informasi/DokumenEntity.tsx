@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import Image from 'next/image'
 
 interface DocumentItem {
   no: string;
@@ -32,7 +33,7 @@ export const DokumenEntity = ({ items }: DokumenEntityProps) => {
   const getFileIcon = (fileType: string, fileIcon: string) => {
     if (fileIcon) {
       return (
-        <img src={fileIcon} alt={`${fileType} icon`} className="w-8 h-8" />
+        <Image src={fileIcon} alt={`${fileType} icon`} className="w-8 h-8" />
       );
     }
 

@@ -1,7 +1,6 @@
 import { HeroSections } from "@/components/entities/HeroSections";
 
-import { MessageCircle, MapPin, Mail, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MapPin, Mail, Phone } from "lucide-react";
 
 const WHATSAPP_NUMBER = "6281234567890";
 
@@ -9,16 +8,6 @@ function createWhatsAppUrl(message: string) {
   const encodedMessage = encodeURIComponent(message);
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 }
-
-
-const pusatPerekonomianNasionalKotaGlobal = {
-  title: "Informasi Publik yang Wajib Diumumkan secara Serta Merta",
-  description: [
-    "Pusat perdagangan",
-    "Pusat kegiatan layanan jasa dan layanan jasa keuangan",
-    "Pusat kegiatan bisnis nasional, regional, dan global",
-  ],
-};
 
 export default function RuangLingkupPage() {
   return (

@@ -256,7 +256,7 @@ export const Navbar = () => {
     <div className="sticky top-0 z-50">
       {/* Header Section */}
       <div
-        className={`bg-gradient-to-r from-blue-900 to-blue-800 text-white backdrop-blur-lg transition-shadow duration-300 ${
+        className={`bg-gradient-to-r from-blue-900/80 to-blue-800/80 text-white backdrop-blur-lg transition-shadow duration-300 ${
           scrolled ? "shadow-md" : ""
         }`}
         role="navigation"

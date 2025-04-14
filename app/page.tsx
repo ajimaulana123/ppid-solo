@@ -1,68 +1,15 @@
 "use client";
 
+import { HeroSection } from "@/components/home/hero-section/HeroSection";
+
 export default function Home() {
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 to-blue-800 text-white overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
+      <HeroSection />
 
-        <div className="container mx-auto px-6 py-20 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Hero Content */}
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-                Keterbukaan Informasi Publik untuk 
-                <span className="text-blue-300"> Surakarta yang Transparan</span>
-              </h1>
-              <p className="text-lg text-blue-100 leading-relaxed">
-                Akses informasi publik dengan mudah dan cepat. Kami berkomitmen untuk mewujudkan pelayanan informasi yang transparan dan akuntabel.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <button className="px-8 py-3 bg-white text-blue-900 rounded-full font-medium hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl">
-                  Ajukan Permohonan
-                </button>
-                <button className="px-8 py-3 bg-transparent border-2 border-white rounded-full font-medium hover:bg-white/10 transition-colors">
-                  Pelajari Lebih Lanjut
-                </button>
-              </div>
-            </div>
-
-            {/* Hero Stats */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/20 transition-colors">
-                <div className="text-3xl font-bold mb-2">1,234+</div>
-                <div className="text-blue-100">Permohonan Informasi Diselesaikan</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/20 transition-colors">
-                <div className="text-3xl font-bold mb-2">98%</div>
-                <div className="text-blue-100">Tingkat Kepuasan Layanan</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/20 transition-colors">
-                <div className="text-3xl font-bold mb-2">24/7</div>
-                <div className="text-blue-100">Layanan Online</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/20 transition-colors">
-                <div className="text-3xl font-bold mb-2">500+</div>
-                <div className="text-blue-100">Dataset Tersedia</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </div>
-        </div>
-      </section>
-
+      {/* Forms */}
       <main className="container mx-auto px-6 py-12">
         {/* Quick Actions Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -270,24 +217,24 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-gray-900 mb-8">WEBSITE WILAYAH</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { 
-                name: 'Surakarta Utara', 
+              {
+                name: 'Surakarta Utara',
                 count: '125 Layanan',
                 description: 'Mencakup 4 Kelurahan',
                 stats: '45,000+ Penduduk',
                 color: 'blue',
                 icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
               },
-              { 
-                name: 'Surakarta Timur', 
+              {
+                name: 'Surakarta Timur',
                 count: '98 Layanan',
                 description: 'Mencakup 3 Kelurahan',
                 stats: '38,000+ Penduduk',
                 color: 'purple',
                 icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
               },
-              { 
-                name: 'Surakarta Selatan', 
+              {
+                name: 'Surakarta Selatan',
                 count: '112 Layanan',
                 description: 'Mencakup 5 Kelurahan',
                 stats: '52,000+ Penduduk',
@@ -295,8 +242,8 @@ export default function Home() {
                 icon: 'M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z'
               }
             ].map((region) => (
-              <div 
-                key={region.name} 
+              <div
+                key={region.name}
                 className={`group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer hover:-translate-y-1 transform duration-300 relative overflow-hidden`}
               >
                 {/* Decorative Side Border */}

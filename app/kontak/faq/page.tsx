@@ -6,15 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-const pusatPerekonomianNasionalKotaGlobal = {
-  title: "Informasi Publik yang Wajib Diumumkan secara Serta Merta",
-  description: [
-    "Pusat perdagangan",
-    "Pusat kegiatan layanan jasa dan layanan jasa keuangan",
-    "Pusat kegiatan bisnis nasional, regional, dan global",
-  ],
-};
-
 export default function RuangLingkupPage() {
   return (
     <div className="min-h-screen bg-gray-50">
