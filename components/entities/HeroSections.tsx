@@ -1,9 +1,8 @@
 interface HeroSectionsProps {
   title: string;
-  description: string;
 }
 
-export const HeroSections = ({ title, description }: HeroSectionsProps) => {
+export const HeroSections = ({ title }: HeroSectionsProps) => {
   return (
     <div className="relative">
       <div className="relative bg-gradient-to-r from-blue-900 to-blue-800 text-white overflow-hidden">
@@ -14,12 +13,9 @@ export const HeroSections = ({ title, description }: HeroSectionsProps) => {
           }} />
         </div>
 
-        <div className="container mx-auto px-6 py-24 pb-32 relative">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-6">{title}</h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
-              {description}
-            </p>
+        <div className="container mx-auto px-6 py-8 relative flex items-center justify-center">
+          <div className="max-w-3xl flex items-center justify-center">
+            <h1 className="text-5xl font-bold text-center">{title}</h1>
           </div>
         </div>
 

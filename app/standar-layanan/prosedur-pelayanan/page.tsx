@@ -20,7 +20,6 @@ export default function ProfilePage() {
       <main>
         <HeroSections
           title="Prosedur Pelayanan Informasi Publik"
-          description="lorem "
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <ProsedurLayananEntity content={visionMissionData} />

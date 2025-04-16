@@ -1,9 +1,6 @@
 // Components
 import { HeroSections } from "@/components/entities/HeroSections";
-import { OrganizationStructure } from "@/components/entities/OrganizationStructure";
-
-// Data
-import { organizationData } from "./data";
+import Image from "next/image";
 
 export default function StrukturOrganisasi() {
   return (
@@ -11,10 +8,14 @@ export default function StrukturOrganisasi() {
       <main>
         <HeroSections
           title="Struktur Organisasi"
-          description="Struktur organisasi PPID Kota Surakarta terdiri dari Pejabat Pengelola, Sekretariat, Bidang Pelayanan Informasi, dan Bidang Dokumentasi. Setiap bagian memiliki peran dalam mengelola serta menyediakan informasi kepada publik sesuai dengan peraturan yang berlaku."
         />
-        <div className="container mx-auto px-6 py-12 space-y-12">
-          <OrganizationStructure members={organizationData.members} />
+        <div className="container flex justify-center items-center px-6 py-12 space-y-12">
+          <Image
+            src="/struktur-organisasi.jpg"
+            alt="Struktur Organisasi"
+            width={600} // Ganti dengan width asli gambar
+            height={400} // Ganti dengan height asli gambar
+          />
         </div>
       </main>
     </div>

@@ -11,7 +11,6 @@ export default function TugasFungsi() {
       <main>
         <HeroSections
           title="Tugas dan Fungsi"
-          description="Menyelenggarakan urusan pemerintahan daerah berdasarkan asas otonomi daerah dan tugas pembantuan. Balai Kota berperan sebagai pusat administrasi dan pelayanan publik, melaksanakan pembangunan daerah, serta mengkoordinasikan berbagai program dan kebijakan untuk kesejahteraan masyarakat Kota Surakarta."
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <TugasFungsiEntity tugasFungsi={tugasFungsi} />

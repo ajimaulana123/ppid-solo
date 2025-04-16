@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Loading() {
+export const LoadingScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {

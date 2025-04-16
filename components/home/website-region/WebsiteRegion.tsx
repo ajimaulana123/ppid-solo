@@ -32,8 +32,7 @@ export const WebsiteRegion = () => (
                     key={region.name}
                     className={`group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer hover:-translate-y-1 transform duration-300 relative overflow-hidden`}
                 >
-                    {/* Decorative Side Border */}
-                    <div className={`absolute left-0 top-0 bottom-0 w-1 bg-${region.color}-500`} />
+                    
 
                     {/* Icon and Title Section */}
                     <div className="flex items-start gap-4 mb-6">
@@ -65,10 +64,7 @@ export const WebsiteRegion = () => (
                         </div>
                     </div>
 
-                    {/* Action Button */}
-                    <button className={`mt-4 w-full px-4 py-2 bg-${region.color}-500 text-white rounded-lg font-medium hover:bg-${region.color}-600 transition-colors group-hover:shadow-md`}>
-                        Kunjungi Website
-                    </button>
+                   
                 </div>
             ))}
         </div>

@@ -4,7 +4,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections title="Statistik Layanan Informasi Publik" description="lorem " />
+        <HeroSections title="Statistik Layanan Informasi Publik" />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div className="rounded-lg shadow-md bg-white p-4">

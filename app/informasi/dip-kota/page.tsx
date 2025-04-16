@@ -13,7 +13,6 @@ export default function DipKota() {
       <main>
         <HeroSections
           title="Daftar Informasi Publik PPID Kota"
-          description="lorem lorem"
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <DipKotaEntity items={dataDipKota.items} />

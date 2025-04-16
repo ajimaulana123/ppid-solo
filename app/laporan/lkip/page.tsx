@@ -16,7 +16,6 @@ export default function RuangLingkupPage() {
       <main>
         <HeroSections
           title="Laporan Kinerja Instansi Pemerintah (LKIP)"
-          description="lorem lorem"
         />
         <div className="container mx-auto px-6 py-12">
           <div className="grid gap-8">

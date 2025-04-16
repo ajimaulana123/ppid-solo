@@ -13,7 +13,6 @@ export default function Dokument() {
       <main>
         <HeroSections
           title="Dokumen Informasi Publik"
-          description="lorem lorem"
         />
         <div className="container mx-auto px-6 py-12 space-y-12">
           <DokumenEntity items={dataDocs.items} />

@@ -15,7 +15,6 @@ export default function RuangLingkupPage() {
       <main>
         <HeroSections
           title="Faq"
-          description="lorem lorem"
         />
         <div className="container mx-auto px-6 py-12">
        

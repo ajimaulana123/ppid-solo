@@ -10,7 +10,6 @@ export default function RuangLingkupPage() {
       <main>
         <HeroSections
           title="Ruang Lingkup Pemerintahan"
-          description="Ruang lingkup dan kewenangan Pemerintahan berdasarkan Undang-Undang Republik Indonesia"
         />
         <div className="container mx-auto px-6 py-12">
           <div className="grid gap-8">

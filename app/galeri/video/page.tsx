@@ -4,7 +4,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections title="Video Kegiatan" description="lorem " />
+        <HeroSections title="Video Kegiatan" />
         <div className="container mx-auto px-6 py-12 space-y-12">
           {/* Berita Terkini - 3 Cards */}
           <div className="mt-16">
