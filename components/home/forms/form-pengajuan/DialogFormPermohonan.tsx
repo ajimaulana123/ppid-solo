@@ -37,14 +37,6 @@ export function DialogFormPermohonan() {
   const {
     register,
     reset,
-    resetField,
-    setValue,
-    getValues,
-    getFieldState,
-    clearErrors,
-    trigger,
-    watch,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<RequestFormSchema>({
@@ -60,12 +52,10 @@ export function DialogFormPermohonan() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onSubmit = async (data: RequestFormSchema) => {
     setIsSubmitting(true)
     setIsSuccess(false)
-    setErrorMessage(null)
 
     try {
       const result = await sendData(data)
@@ -73,11 +63,8 @@ export function DialogFormPermohonan() {
       setIsSuccess(true)
       reset()
       // Optionally, close the dialog or show a success message
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error submitting request:", error)
-      setErrorMessage(
-        error.message || "An error occurred while submitting the request."
-      )
     } finally {
       setIsSubmitting(false)
     }
