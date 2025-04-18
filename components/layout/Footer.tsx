@@ -1,3 +1,5 @@
+import VisitorCounter from "@/components/VisitorCounter";
+
 export const Footer = () => {
   return (
     <>
@@ -75,7 +77,7 @@ export const Footer = () => {
                     </div>
                     <div>
                       <p className="text-blue-100">Kunjungan bulan ini</p>
-                      <p className="text-2xl font-bold text-white">69,598</p>
+                      <VisitorCounter />
                     </div>
                   </div>
                 </div>
@@ -108,7 +110,7 @@ export const Footer = () => {
             {/* Copyright */}
             <div className="mt-16 pt-8 border-t border-white/10">
               <p className="text-center text-blue-100 text-sm">
-                © 2024 Dinas Komunikasi, Informatika dan Statistik Pemerintah Kota Surakarta
+                © 2025 Dinas Komunikasi, Informatika dan Statistik Pemerintah Kota Surakarta
               </p>
             </div>
           </div>

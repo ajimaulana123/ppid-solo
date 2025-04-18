@@ -1,4 +1,4 @@
-import { FormPermohonan } from "./FormPermohonan";
+import { FormPermohonan } from "./form-pengajuan/FormPermohonan";
 import { FormPengajuan } from "./FormPengajuan";
 import { CekStatus } from "./CekStatus";
 import { Statistik } from "./Statistik";

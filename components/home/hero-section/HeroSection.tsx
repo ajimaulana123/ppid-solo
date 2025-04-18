@@ -30,7 +30,14 @@ export const HeroSection = () => {
     <Carousel autoplay={{ dotDuration: true }} autoplaySpeed={5000}>
       {images.map((image, index) => (
         <div key={index}>
-          <Image src={image.url} alt={image.alt} style={{ width: '100%', height: '100%' }} />
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={1920}
+            height={1080}
+            className="w-full h-auto max-w-full"
+            priority
+          />
         </div>
       ))}
     </Carousel>
