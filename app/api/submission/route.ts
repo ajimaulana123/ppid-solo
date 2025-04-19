@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requestPeople } from '@/lib/request/schemaDb'
-import { requestFormSchema } from '@/lib/request/schemaRequestForm'
+import { submission } from '@/lib/submission/schemaDb'
+import { submissionFormSchema } from '@/lib/submission/schemaSubmissionForm'
 import { z } from 'zod' // Tambahkan import ini
 
 export async function POST(req: Request) {
@@ -9,19 +9,17 @@ export async function POST(req: Request) {
     const rawBody = await req.json()
     
     // Validasi dengan schema yang ada
-    const validatedData = requestFormSchema.parse(rawBody)
+    const validatedData = submissionFormSchema.parse(rawBody)
 
     // Konversi ke format yang sesuai dengan Drizzle schema
     const dbData = {
-      fullName: validatedData.fullName,
-      nik: validatedData.nik.toString(), // Konversi number ke string
-      phone: validatedData.phone.toString(), // Konversi number ke string
-      email: validatedData.email,
-      detailInformation: validatedData.detailInformation
+      nik: validatedData.nik.toString(),
+      reasonOfSubmission: validatedData.reasonOfSubmission,
+      chronology: validatedData.chronology,
     }
 
     // Insert ke database
-    const [result] = await db.insert(requestPeople)
+    const [result] = await db.insert(submission)
       .values(dbData)
       .returning()
 

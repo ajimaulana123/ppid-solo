@@ -9,13 +9,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { requestFormSchema, RequestFormSchema } from "../../../../lib/schemaRequestForm"
+import { requestFormSchema, RequestFormSchema } from "@/lib/request/schemaRequestForm"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Textarea } from "@/components/ui/textarea"
 import { Loader2 } from "lucide-react"
-import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
+import { useState } from "react"
 
 const sendData = async (data: RequestFormSchema) => {
   const response = await fetch("/api/request", {
@@ -50,28 +51,46 @@ export function DialogFormPermohonan() {
     }
   })
 
+  const [open, setOpen] = useState(false)
+  const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
   const onSubmit = async (data: RequestFormSchema) => {
     setIsSubmitting(true)
-    setIsSuccess(false)
 
     try {
-      const result = await sendData(data)
-      console.log("Request submitted:", result)
-      setIsSuccess(true)
+      await sendData(data)
+
+      toast({
+        title: "Permohonan Berhasil",
+        description: "Permohonan Anda telah berhasil dikirim.",
+        variant: "default",
+      })
+
       reset()
       // Optionally, close the dialog or show a success message
     } catch (error) {
       console.error("Error submitting request:", error)
+      toast({
+        title: "Gagal Mengirim Permohonan",
+        description: "Terjadi kesalahan saat mengirim permohonan. Silakan coba lagi.",
+        variant: "destructive",
+      })
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <Dialog>
+    <Dialog 
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open)
+        if (!open) {
+          // Optional: reset form ketika ditutup
+          reset()
+        }
+      }}>
       <DialogTrigger asChild>
         <Button className="w-full px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
           Ajukan Permohonan
@@ -186,12 +205,9 @@ export function DialogFormPermohonan() {
                   Mengirim...
                 </>
               ) : (
-                "Simpan Permohonan"
+                "Kirim Permohonan"
               )}
             </Button>
-            {isSuccess && (
-              <p className="mt-2 text-sm text-green-500">Permohonan berhasil dikirim!</p>
-            )}
           </DialogFooter>
         </form>
       </DialogContent>
