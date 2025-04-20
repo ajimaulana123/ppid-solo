@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { submission } from '@/lib/submission/schemaDb'
+import { submission } from '@/lib/schemaDb'
 import { submissionFormSchema } from '@/lib/submission/schemaSubmissionForm'
 import { z } from 'zod' // Tambahkan import ini
 

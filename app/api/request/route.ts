@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requestPeople } from '@/lib/request/schemaDb'
+import { requestPeople } from '@/lib/schemaDb'
 import { requestFormSchema } from '@/lib/request/schemaRequestForm'
 import { z } from 'zod' // Tambahkan import ini
 

@@ -36,7 +36,7 @@ const sendData = async (data: SubmissionFormSchema) => {
 
 type ReasonOptionKey = keyof typeof ReasonOptions;
 
-export function DialogFormPengajuan() {
+export function DialogCekStatus() {
   const {
     register,
     reset,
@@ -93,8 +93,8 @@ export function DialogFormPengajuan() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
-          Ajukan Permohonan
+        <Button className="w-full px-4 py-2.5 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
+          Cek Status
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">

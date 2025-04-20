@@ -1,6 +1,6 @@
 import { FormPermohonan } from "./form-permohonan/FormPermohonan";
 import { FormPengajuan } from "./form-pengajuan/FormPengajuan";
-import { CekStatus } from "./CekStatus";
+import { CekStatus } from "./cek-status/CekStatus";
 import { Statistik } from "./Statistik";
 
 export const Forms = () => (
