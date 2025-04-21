@@ -1,8 +1,8 @@
 import { pgTable, serial, text, timestamp, varchar, pgEnum } from 'drizzle-orm/pg-core';
 
 export const requestStatusEnum = pgEnum('request_status', [
-  'belum diproses',
   'sedang diproses',
+  'ditolak',
   'selesai diproses'
 ]);
 
@@ -14,7 +14,7 @@ export const requestPeople = pgTable('RequestPeople', {
   email: varchar('email', { length: 255 }).notNull(),
   detailInformation: text('detailInformation').notNull(),
   requestStatus: requestStatusEnum('requestStatus')
-    .default('belum diproses')
+    .default('sedang diproses')
     .notNull(),
   createdAt: timestamp('createdAt').defaultNow().notNull(),
   updatedAt: timestamp('updatedAt').$onUpdate(() => new Date()),

@@ -1,0 +1,1 @@
+ALTER TABLE "RequestPeople" ALTER COLUMN "requestStatus" SET DEFAULT 'sedang diproses';

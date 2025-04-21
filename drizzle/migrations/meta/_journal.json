@@ -34,6 +34,27 @@
       "when": 1745149865772,
       "tag": "0004_amused_mister_sinister",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1745211381377,
+      "tag": "0005_mean_norman_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1745211429556,
+      "tag": "0006_ancient_dazzler",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1745211617271,
+      "tag": "0007_rapid_penance",
+      "breakpoints": true
     }
   ]
 }

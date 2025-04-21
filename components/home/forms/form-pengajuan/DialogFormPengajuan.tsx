@@ -94,7 +94,7 @@ export function DialogFormPengajuan() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="w-full px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
-          Ajukan Permohonan
+          Ajukan Pengajuan
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
@@ -180,7 +180,7 @@ export function DialogFormPengajuan() {
                   Mengirim...
                 </>
               ) : (
-                "Kirim Permohonan"
+                "Kirim Pengajuan"
               )}
             </Button>
           </DialogFooter>
