@@ -1,2 +1,0 @@
-CREATE TYPE "public"."status_pemohonan" AS ENUM('belum diproses', 'sedang diproses', 'selesai diproses');--> statement-breakpoint
-ALTER TABLE "RequestPeople" ADD COLUMN "statusPemohonan" "status_pemohonan" DEFAULT 'belum diproses' NOT NULL;

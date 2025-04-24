@@ -1,7 +1,7 @@
 // lib/schemas/submission.ts
 import { z } from "zod";
 
-export const statusCheck = z.object({
+export const statusCheckPengajuan = z.object({
   id: z.string(),
   fullName: z.string().length(16),
   requestStatus: z.enum([
@@ -9,8 +9,8 @@ export const statusCheck = z.object({
     'ditolak',
     'selesai diproses'
   ]),
-  detailInformation: z.string(),
+  chronology: z.string(),
   createdAt: z.string().datetime()
 });
 
-export type StatusCheck = z.infer<typeof statusCheck>;
+export type StatusCheckPengajuan = z.infer<typeof statusCheckPengajuan>;

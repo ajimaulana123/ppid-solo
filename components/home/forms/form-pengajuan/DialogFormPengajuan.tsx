@@ -77,7 +77,6 @@ export function DialogFormPengajuan() {
         variant: "default",
       })
       reset()
-      setOpen(false)
     } catch (error) {
       console.error("Error submitting request:", error)
       toast({
@@ -91,7 +90,13 @@ export function DialogFormPengajuan() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(open) => {
+        setOpen(open)
+        if (!open) {
+          // Optional: reset form ketika ditutup
+          reset()
+        }
+      }}>
       <DialogTrigger asChild>
         <Button className="w-full px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
           Ajukan Pengajuan
@@ -103,6 +108,23 @@ export function DialogFormPengajuan() {
             <DialogTitle>Form Permohonan Keberatan</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+               {/* Nama Lengkap */}
+               <div className="grid grid-cols-2 items-center gap-4">
+              <Label htmlFor="fullName" className="font-bold">
+                Nama Lengkap
+              </Label>
+              <Input
+                id="fullName"
+                className="col-span-4"
+                {...register("fullName")}
+              />
+              {errors.fullName && (
+                <p className="col-span-4 text-right text-sm text-red-500">
+                  {errors.fullName.message}
+                </p>
+              )}
+            </div>
+            
             {/* NIK */}
             <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="nik" className="font-bold">

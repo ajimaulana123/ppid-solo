@@ -14,6 +14,7 @@ export async function POST(req: Request) {
     // Konversi ke format yang sesuai dengan Drizzle schema
     const dbData = {
       nik: validatedData.nik.toString(),
+      fullName: validatedData.fullName,
       reasonOfSubmission: validatedData.reasonOfSubmission,
       chronology: validatedData.chronology,
     }

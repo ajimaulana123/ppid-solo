@@ -1,1 +1,0 @@
-ALTER TABLE "submission" RENAME TO "Submission";

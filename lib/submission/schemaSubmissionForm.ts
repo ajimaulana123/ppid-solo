@@ -13,6 +13,9 @@ export type ReasonOptionKey = keyof typeof ReasonOptions;
 export type ReasonOptionValue = typeof ReasonOptions[ReasonOptionKey];
 
 export const submissionFormSchema = z.object({
+  fullName: z.string().min(2, {
+    message: "Nama Lengkap harus minimal 2 karakter.",
+  }),
   nik: z.coerce.number().min(1000000000000000).max(9999999999999999),
   reasonOfSubmission: z.array(z.enum(Object.keys(ReasonOptions) as [ReasonOptionKey, ...ReasonOptionKey[]])),
   chronology: z.string().min(10)

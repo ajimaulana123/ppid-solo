@@ -1,5 +1,5 @@
 {
-  "id": "937addae-51f5-415c-9ef3-c84b15ad4cd5",
+  "id": "49183ea6-9172-4f82-89e9-2a0049e8b048",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -22,13 +22,13 @@
         },
         "nik": {
           "name": "nik",
-          "type": "varchar(20)",
+          "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(15)",
           "primaryKey": false,
           "notNull": true
         },
@@ -44,18 +44,89 @@
           "primaryKey": false,
           "notNull": true
         },
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
         "createdAt": {
           "name": "createdAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Submission": {
+      "name": "Submission",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "fullName": {
+          "name": "fullName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nik": {
+          "name": "nik",
+          "type": "varchar(16)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reasonOfSubmission": {
+          "name": "reasonOfSubmission",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'"
+        },
+        "chronology": {
+          "name": "chronology",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},

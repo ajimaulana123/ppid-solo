@@ -5,6 +5,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { Toaster } from "@/components/ui/toaster"
+import { Providers } from './providers'
+import { SvgCursor } from './CustomCursor'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,7 +40,8 @@ export default function RootLayout({
         <Navbar />
         <LoadingScreen />
         <Toaster />
-        {children}
+        <SvgCursor />
+        <Providers>{children}</Providers>
         <Footer />
       </body>
     </html>

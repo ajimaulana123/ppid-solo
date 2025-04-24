@@ -1,9 +1,60 @@
 {
-  "id": "78314054-52f9-4787-b3a3-0581916449b2",
-  "prevId": "937addae-51f5-415c-9ef3-c84b15ad4cd5",
+  "id": "52326694-d869-4bd1-a1f8-20972ae446e7",
+  "prevId": "49183ea6-9172-4f82-89e9-2a0049e8b048",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.News": {
+      "name": "News",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.RequestPeople": {
       "name": "RequestPeople",
       "schema": "",
@@ -22,13 +73,13 @@
         },
         "nik": {
           "name": "nik",
-          "type": "varchar(20)",
+          "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(15)",
           "primaryKey": false,
           "notNull": true
         },
@@ -44,18 +95,25 @@
           "primaryKey": false,
           "notNull": true
         },
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
         "createdAt": {
           "name": "createdAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -66,8 +124,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.submission": {
-      "name": "submission",
+    "public.Submission": {
+      "name": "Submission",
       "schema": "",
       "columns": {
         "id": {
@@ -76,17 +134,24 @@
           "primaryKey": true,
           "notNull": true
         },
+        "fullName": {
+          "name": "fullName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "nik": {
           "name": "nik",
           "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
-        "reason_of_submission": {
-          "name": "reason_of_submission",
+        "reasonOfSubmission": {
+          "name": "reasonOfSubmission",
           "type": "text[]",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'{}'"
         },
         "chronology": {
           "name": "chronology",
@@ -94,18 +159,25 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},

@@ -1,9 +1,60 @@
 {
-  "id": "e4e5a04e-69e8-40d8-90fe-99fa5cbd9ff4",
-  "prevId": "78314054-52f9-4787-b3a3-0581916449b2",
+  "id": "f59a6296-723d-478f-b930-01bf735693ab",
+  "prevId": "52326694-d869-4bd1-a1f8-20972ae446e7",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.News": {
+      "name": "News",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.RequestPeople": {
       "name": "RequestPeople",
       "schema": "",
@@ -22,13 +73,13 @@
         },
         "nik": {
           "name": "nik",
-          "type": "varchar(20)",
+          "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar(15)",
           "primaryKey": false,
           "notNull": true
         },
@@ -44,18 +95,25 @@
           "primaryKey": false,
           "notNull": true
         },
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
         "createdAt": {
           "name": "createdAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -76,17 +134,24 @@
           "primaryKey": true,
           "notNull": true
         },
+        "fullName": {
+          "name": "fullName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "nik": {
           "name": "nik",
           "type": "varchar(16)",
           "primaryKey": false,
           "notNull": true
         },
-        "reason_of_submission": {
-          "name": "reason_of_submission",
+        "reasonOfSubmission": {
+          "name": "reasonOfSubmission",
           "type": "text[]",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'{}'"
         },
         "chronology": {
           "name": "chronology",
@@ -94,18 +159,25 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
+        "requestStatus": {
+          "name": "requestStatus",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "default": "'sedang diproses'"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},

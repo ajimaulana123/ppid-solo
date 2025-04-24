@@ -104,7 +104,7 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
-        <HeroSections title="Berita Surakarta" />
+        <HeroSections title="Berita Transparansi" />
         <div className="container mx-auto px-6 py-12 space-y-12">
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto">
