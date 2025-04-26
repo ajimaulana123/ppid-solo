@@ -4,7 +4,7 @@ import {
     DialogContent,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { TabsStatistik } from "./Tabs"
+import { TabsStatistik } from "./tabs/Tabs"
 
 export function DialogStatistik() {
     return (

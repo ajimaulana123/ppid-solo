@@ -22,7 +22,12 @@ interface ApiResponse {
   };
 }
 
-export const News = () => {
+interface NewsProps {
+  horizontalNewsView?: string;
+  topGap?: string;
+}
+
+export const News = ({ horizontalNewsView = "grid grid-cols-1 md:grid-cols-3", topGap = "mt-16" }: NewsProps) => {
   const [latestNews, setLatestNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +42,6 @@ export const News = () => {
         
         const responseData: ApiResponse = await res.json();
         
-        // Pastikan data ada dan berupa array
         if (!responseData.data || !Array.isArray(responseData.data)) {
           throw new Error('Format data tidak valid');
         }
@@ -56,14 +60,14 @@ export const News = () => {
 
   if (loading) {
     return (
-      <div className="mt-16">
+      <div className={topGap}>
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl font-bold text-gray-900">Berita Terkini</h2>
           <Link href="/berita/surakarta" className="text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2 group">
             Lihat Semua »
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={`${horizontalNewsView} gap-6`}>
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all">
               <div className="relative h-48 w-full bg-gray-200 animate-pulse"></div>
@@ -80,10 +84,9 @@ export const News = () => {
     );
   }
 
-
   if (error) {
     return (
-      <div className="mt-16">
+      <div className={topGap}>
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl font-bold text-gray-900">Berita Terkini</h2>
           <Link href="/berita/surakarta" className="text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2 group">
@@ -104,7 +107,7 @@ export const News = () => {
   }
 
   return (
-    <div className="mt-16">
+    <div className={topGap}>
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Berita Terkini</h2>
         <Link href="/berita/surakarta" className="text-blue-600 hover:text-blue-700 font-medium flex items-center gap-2 group">
@@ -112,7 +115,7 @@ export const News = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className={`${horizontalNewsView} gap-6`}>
         {Array.isArray(latestNews) && latestNews.map((news) => (
           <Link
             key={news.id}
