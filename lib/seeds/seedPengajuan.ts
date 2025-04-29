@@ -1,5 +1,5 @@
-import { db } from "./db";
-import { submission } from "./schemaDb";
+import { db } from "../db";
+import { submission } from "../schemaDb";
 import { faker } from "@faker-js/faker/locale/id_ID";
 
 async function seed() {

@@ -16,8 +16,6 @@ export async function GET(
       .where(eq(news.id, Number(params.id)))
       .limit(1);
 
-    console.log(singleNews)
-
     if (!singleNews.length) {
       return NextResponse.json(
         { error: 'Berita tidak ditemukan' },

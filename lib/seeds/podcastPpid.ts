@@ -1,6 +1,6 @@
 // src/db/seed.ts
-import { db } from "./db";
-import { news } from "./schemaDb";
+import { db } from "../db";
+import { activiesPodcastPpid } from "../schemaDb";
 import { faker } from "@faker-js/faker/locale/id_ID";
 
 // Daftar path gambar di storage (tanpa URL lengkap)
@@ -32,7 +32,7 @@ async function seed() {
     };
   });
 
-  await db.insert(news).values(mockNews);
+  await db.insert(activiesPodcastPpid).values(mockNews);
   console.log(`Successfully seeded ${mockNews.length} news articles!`);
 }
 

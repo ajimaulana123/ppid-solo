@@ -1,114 +1,210 @@
-import { HeroSections } from "@/components/entities/HeroSections";
+'use client'
 
-export default function ProfilePage() {
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BarChart } from "@tremor/react"
+import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useEffect, useState } from "react"
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28"]
+const REFRESH_INTERVAL = 30000 // 30 detik
+
+// Add this interface for daily chart data
+interface DailyChartData {
+  date: string;
+  LKPD?: number;
+  PPID?: number;
+  Survei?: number;
+}
+
+interface ReportStats {
+  success: boolean
+  data: {
+    totals: {
+      lkpd: number
+      ppid: number
+      survei: number
+    }
+    daily: Array<{
+      type: 'LKPD' | 'PPID' | 'Survei'
+      date: string
+      count: number
+    }>
+  }
+}
+
+async function fetchReportStats(): Promise<ReportStats> {
+  const res = await fetch('/api/statistics/reports')
+  if (!res.ok) {
+    const errorData = await res.json()
+    throw new Error(errorData.error || 'Failed to fetch report statistics')
+  }
+  return res.json()
+}
+
+export default function ReportStatistics() {
+  const [autoRefresh, setAutoRefresh] = useState(true)
+  const [lastUpdated, setLastUpdated] = useState<string>()
+
+  const { data, isLoading, error, refetch } = useQuery<ReportStats, Error>({
+    queryKey: ['report-stats'],
+    queryFn: async () => {
+      const result = await fetchReportStats()
+      setLastUpdated(new Date().toLocaleTimeString())
+      return result
+    },
+    refetchInterval: autoRefresh ? REFRESH_INTERVAL : false,
+    refetchOnWindowFocus: true
+  })
+
+  useEffect(() => {
+    return () => setAutoRefresh(false)
+  }, [])
+
+  if (error) {
+    return (
+      <div className="p-4 bg-red-50 text-red-600 rounded-lg">
+        <h3 className="font-bold">Error loading statistics</h3>
+        <p>{error.message}</p>
+        <button 
+          onClick={() => refetch()}
+          className="mt-2 px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  // Format data untuk chart total
+  const totalsData = [
+    { name: 'Laporan LKPD', value: data?.data?.totals?.lkpd || 0 },
+    { name: 'Laporan PPID', value: data?.data?.totals?.ppid || 0 },
+    { name: 'Survei', value: data?.data?.totals?.survei || 0 }
+  ]
+
+  const dailyChartData = data?.data?.daily?.reduce((acc: DailyChartData[], item) => {
+    const existingDate = acc.find(d => d.date === item.date)
+    if (existingDate) {
+      existingDate[item.type] = item.count
+    } else {
+      const newEntry: DailyChartData = { 
+        date: item.date,
+        [item.type]: item.count 
+      }
+      acc.push(newEntry)
+    }
+    return acc
+  }, []) || []
+
+  // Urutkan data harian berdasarkan tanggal
+  const sortedDailyChartData = [...dailyChartData].sort((a, b) => 
+    new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main>
-        <HeroSections title="Statistik Layanan Informasi Publik" />
-        <div className="container mx-auto px-6 py-12 space-y-12">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Jumlah Permohonan Publik</h2>
-              <div className="text-4xl font-bold text-blue-500">6599</div>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Jumlah Visitor</h2>
-              <div className="text-4xl font-bold text-blue-500">900.000</div>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Jumlah Permohonan</h2>
-              <div className="text-4xl font-bold text-blue-500">4491</div>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Jumlah Keberatan</h2>
-              <div className="text-4xl font-bold text-blue-500">168</div>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Permohonan Selesai</h2>
-              <div className="text-4xl font-bold text-blue-500">4316</div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Rata-Rata Pemenuhan Permohonan</h2>
-              <div className="h-48 w-full rounded-lg bg-gray-200">
-                {/* Replace this with your chart component */}
-                <div className="text-center mt-4">Diagram Batang</div>
-              </div>
-              <ul className="list-disc mt-2">
-                <li>Kurang dari 5 hari</li>
-                <li>6–10 hari</li>
-                <li>11–15 hari</li>
-                <li>16–20 hari</li>
-                <li>Lebih dari 20 hari</li>
-              </ul>
-              <p className="mt-2">Mayoritas permohonan diselesaikan dalam 11–15 hari dan 16–20 hari.</p>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Tingkat Penyelesaian</h2>
-              <div className="h-48 w-full rounded-lg bg-gray-200">
-                {/* Replace this with your chart component */}
-                <div className="text-center mt-4">Pie Chart</div>
-              </div>
-              <ul className="list-disc mt-2">
-                <li>✅ Permohonan Pemohon Selesai: 96.1%</li>
-                <li>🟦 Informasi Publik Dikecualikan: 2.4%</li>
-                <li>🟧 Alasan Permohonan Ditolak: 1.5%</li>
-              </ul>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Grafik Tren Permohonan (Bulanan)</h2>
-              <div className="h-48 w-full rounded-lg bg-gray-200">
-                {/* Replace this with your chart component */}
-                <div className="text-center mt-4">Grafik Tren</div>
-              </div>
-              <p className="mt-2">Menampilkan jumlah permohonan setiap bulan dari Oktober 2023 hingga April 2024. Ada peningkatan signifikan di Maret 2024 lalu turun di April 2024.</p>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Permohonan Layanan Informasi</h2>
-              <div className="grid grid-cols-1 gap-4">
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">Temujin Partindungan Pasaribu</h3>
-                  <p className="mb-2">Informasi A</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">Muhammad Sulhan</h3>
-                  <p className="mb-2">Informasi B</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">LEA Alvin H. Paradisea</h3>
-                  <p className="mb-2">Informasi C</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">dddg syuyng widarto</h3>
-                  <p className="mb-2">Informasi D</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-lg shadow-md bg-white p-4">
-              <h2 className="text-xl font-bold mb-2">Keberatan Informasi Publik</h2>
-              <div className="grid grid-cols-1 gap-4">
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">Nomor Registrasi: 12345</h3>
-                  <p className="mb-2">Kode Pemohon: ABC</p>
-                  <p className="mb-2">Catatan Keberatan: Alasan Keberatan A</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-                <div className="rounded-lg shadow-md bg-white p-4">
-                  <h3 className="text-lg font-bold mb-2">Nomor Registrasi: 67890</h3>
-                  <p className="mb-2">Kode Pemohon: DEF</p>
-                  <p className="mb-2">Catatan Keberatan: Alasan Keberatan B</p>
-                  <p className="text-gray-500">2024-04-20</p>
-                </div>
-              </div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center flex-wrap gap-4">
+            <CardTitle>Statistik Laporan</CardTitle>
+            <div className="flex items-center space-x-4 flex-wrap gap-2">
+              {lastUpdated && (
+                <span className="text-sm text-gray-500">
+                  Terakhir diperbarui: {lastUpdated}
+                </span>
+              )}
+              <button
+                onClick={() => refetch()}
+                className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Memuat...' : 'Refresh'}
+              </button>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={autoRefresh}
+                  onChange={() => setAutoRefresh(!autoRefresh)}
+                  className="h-4 w-4"
+                  disabled={isLoading}
+                />
+                <span className="text-sm">Auto Refresh (30s)</span>
+              </label>
             </div>
           </div>
-        </div>
-      </main>
+        </CardHeader>
+        
+        <CardContent className="space-y-6">
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-8 w-1/2" />
+              <Skeleton className="h-[300px] w-full" />
+              <Skeleton className="h-[300px] w-full" />
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {totalsData.map((item, index) => (
+                  <Card key={item.name}>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium">
+                        {item.name}
+                      </CardTitle>
+                      <div 
+                        className="h-4 w-4 rounded-full" 
+                        style={{ backgroundColor: COLORS[index] }}
+                      />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{item.value.toLocaleString()}</div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Distribusi Laporan</CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-[300px]">
+                    <BarChart
+                      data={totalsData}
+                      index="name"
+                      categories={["value"]}
+                      colors={COLORS}
+                      yAxisWidth={60}
+                      showAnimation={true}
+                      valueFormatter={(value) => value.toLocaleString()}
+                      className="h-full"
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Aktivitas 7 Hari Terakhir</CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-[300px]">
+                    <BarChart
+                      data={sortedDailyChartData}
+                      index="date"
+                      categories={["LKPD", "PPID", "Survei"]}
+                      colors={COLORS}
+                      yAxisWidth={40}
+                      showLegend={true}
+                      stack={true}
+                      valueFormatter={(value) => value.toLocaleString()}
+                      className="h-full"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
 }

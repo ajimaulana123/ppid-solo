@@ -1,1 +1,0 @@
-ALTER TABLE "News" ALTER COLUMN "imageUrl" SET DATA TYPE text;
