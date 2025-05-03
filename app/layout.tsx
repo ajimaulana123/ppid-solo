@@ -7,6 +7,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { Toaster } from "@/components/ui/toaster"
 import { Providers } from './providers'
 import { SvgCursor } from './CustomCursor'
+import { headers } from "next/headers"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,17 +33,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const pathname = headers().get('x-pathname') || '';
+
+  const isAdminRoute = pathname.startsWith('/admin');
+
+  console.log(pathname)
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        <LoadingScreen />
-        <Toaster />
-        <SvgCursor />
-        <Providers>{children}</Providers>
-        <Footer />
+        {isAdminRoute ? (
+          <>
+            <LoadingScreen />
+            <Toaster />
+            <SvgCursor />
+            <Providers>{children}</Providers>
+          </>
+        ) : (
+          <>
+            <Navbar />
+            <LoadingScreen />
+            <Toaster />
+            <SvgCursor />
+            <Providers>{children}</Providers>
+            <Footer />
+          </>
+        )}
       </body>
     </html>
   );

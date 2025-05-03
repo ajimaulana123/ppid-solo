@@ -145,8 +145,12 @@ export const activiesPodcastPpid = pgTable('ActiviesPodcastPpid', {
 export const contactUs = pgTable('ContactUs', {
   id: serial('id').primaryKey(),
   fullName: text('fullName').notNull(),
-  email: varchar('title', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
   description: text('description'), 
+  requestStatus: text('requestStatus')
+  .default('sedang diproses')
+  .notNull()
+  .$type<'sedang diproses' | 'ditolak' | 'selesai diproses'>(),
   createdAt: timestamp('createdAt').defaultNow(),
   updatedAt: timestamp('updatedAt').defaultNow(),
 });
