@@ -11,10 +11,10 @@ export default function Loading() {
     const handleLoad = () => setIsLoading(false);
     
     if (document.readyState === 'complete') {
-      setTimeout(() => setIsLoading(false), 1000); // Delay minimal untuk animasi
+      setTimeout(() => setIsLoading(false), 5000); // Delay minimal untuk animasi
     } else {
       window.addEventListener('load', () => {
-        setTimeout(() => setIsLoading(false), 1000);
+        setTimeout(() => setIsLoading(false), 5000);
       });
       
       const timer = setTimeout(() => {
