@@ -23,6 +23,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+export const dynamic = 'force-dynamic'
+
 type RequestPerson = {
   id: number;
   fullName: string;
