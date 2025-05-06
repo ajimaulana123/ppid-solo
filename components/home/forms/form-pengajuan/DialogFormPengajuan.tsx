@@ -1,4 +1,5 @@
-import { Button, buttonVariants } from "@/components/ui/button"
+import React, { useCallback, useMemo } from 'react';
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,37 +7,49 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ReasonOptions, submissionFormSchema, SubmissionFormSchema } from "@/lib/submission/schemaSubmissionForm"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Textarea } from "@/components/ui/textarea"
-import { Loader2 } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useToast } from "@/hooks/use-toast"
-import { useState } from "react"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ReasonOptions, submissionFormSchema, SubmissionFormSchema } from "@/lib/submission/schemaSubmissionForm";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
-const sendData = async (data: SubmissionFormSchema) => {
-  const response = await fetch("/api/submission", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
+// Komponen Checkbox yang di-memo
+const ReasonCheckbox = React.memo(({
+  id,
+  label,
+  checked,
+  onChange
+}: {
+  id: string;
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}) => (
+  <div className="grid grid-cols-[auto_1fr] gap-2">
+    <input
+      type="checkbox"
+      id={id}
+      checked={checked}
+      onChange={onChange}
+      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+    />
+    <Label htmlFor={id} className="text-sm font-normal">
+      {label}
+    </Label>
+  </div>
+));
+ReasonCheckbox.displayName = 'ReasonCheckbox';
 
-  if (!response.ok) {
-    throw new Error("Failed to send request")
-  }
+const DialogFormPengajuan = React.memo(function DialogFormPengajuan() {
+  const [open, setOpen] = React.useState(false);
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  return response.json()
-}
-
-type ReasonOptionKey = keyof typeof ReasonOptions;
-
-export function DialogFormPengajuan() {
   const {
     register,
     reset,
@@ -46,57 +59,74 @@ export function DialogFormPengajuan() {
     setValue
   } = useForm<SubmissionFormSchema>({
     resolver: zodResolver(submissionFormSchema),
-    defaultValues: {
+    defaultValues: useMemo(() => ({
       nik: undefined,
       reasonOfSubmission: [],
       chronology: "",
-    }
-  })
-
-  const [open, setOpen] = useState(false)
-  const { toast } = useToast()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+      fullName: ""
+    }), [])
+  });
 
   const selectedReasons = watch("reasonOfSubmission");
 
-  const handleReasonChange = (reasonId: ReasonOptionKey) => {
+  // Handler untuk pengiriman data dengan useCallback
+  const sendData = useCallback(async (data: SubmissionFormSchema) => {
+    const response = await fetch("/api/submission", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Failed to send request");
+    return response.json();
+  }, []);
+
+  // Handler untuk perubahan checkbox reason
+  const handleReasonChange = useCallback((reasonId: keyof typeof ReasonOptions) => {
     const newReasons = selectedReasons.includes(reasonId)
       ? selectedReasons.filter(id => id !== reasonId)
       : [...selectedReasons, reasonId];
     setValue("reasonOfSubmission", newReasons);
-  };
+  }, [selectedReasons, setValue]);
 
-  const onSubmit = async (data: SubmissionFormSchema) => {
-    setIsSubmitting(true)
-
+  // Handler untuk submit form
+  const onSubmit = useCallback(async (data: SubmissionFormSchema) => {
+    setIsSubmitting(true);
     try {
-      await sendData(data)
+      await sendData(data);
       toast({
         title: "Permohonan Berhasil",
         description: "Permohonan Anda telah berhasil dikirim.",
         variant: "default",
-      })
-      reset()
-    } catch (error) {
-      console.error("Error submitting request:", error)
+      });
+      reset();
+      setOpen(false);
+    } catch {
       toast({
         title: "Gagal Mengirim Permohonan",
-        description: "Terjadi kesalahan saat mengirim permohonan. Silakan coba lagi.",
+        description: "Terjadi kesalahan saat mengirim permohonan.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  }, [sendData, toast, reset]);
+
+  // Handler untuk perubahan dialog
+  const handleOpenChange = useCallback((open: boolean) => {
+    setOpen(open);
+    if (!open) reset();
+  }, [reset]);
+
+  // Memoisasi daftar reason options
+  const reasonOptionsList = useMemo(() => 
+    Object.entries(ReasonOptions).map(([key, value]) => ({
+      key: key as keyof typeof ReasonOptions,
+      value
+    })), []);
 
   return (
-    <Dialog open={open} onOpenChange={(open) => {
-        setOpen(open)
-        if (!open) {
-          // Optional: reset form ketika ditutup
-          reset()
-        }
-      }}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="w-full px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-sm hover:shadow-md transition-all p-6 text-center transform hover:-translate-y-1">
           Ajukan Pengajuan
@@ -108,8 +138,8 @@ export function DialogFormPengajuan() {
             <DialogTitle>Form Permohonan Keberatan</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-               {/* Nama Lengkap */}
-               <div className="grid grid-cols-2 items-center gap-4">
+            {/* Nama Lengkap */}
+            <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="fullName" className="font-bold">
                 Nama Lengkap
               </Label>
@@ -147,19 +177,14 @@ export function DialogFormPengajuan() {
             <div className="grid grid-cols-1 gap-4">
               <Label className="font-bold">Alasan Pengajuan Keberatan</Label>
               <div className="space-y-2">
-                {Object.entries(ReasonOptions).map(([key, value]) => (
-                  <div key={key} className="grid grid-cols-[auto_1fr] gap-2">
-                    <input
-                      type="checkbox"
-                      id={key}
-                      checked={(selectedReasons as string[]).includes(key)}
-                      onChange={() => handleReasonChange(key as keyof typeof ReasonOptions)}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <Label htmlFor={key} className="text-sm font-normal">
-                      {value}
-                    </Label>
-                  </div>
+                {reasonOptionsList.map(({key, value}) => (
+                  <ReasonCheckbox
+                    key={key}
+                    id={key}
+                    label={value}
+                    checked={(selectedReasons as string[]).includes(key)}
+                    onChange={() => handleReasonChange(key)}
+                  />
                 ))}
                 {errors.reasonOfSubmission && (
                   <p className="text-sm text-red-500">
@@ -209,5 +234,7 @@ export function DialogFormPengajuan() {
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+});
+
+export  { DialogFormPengajuan };

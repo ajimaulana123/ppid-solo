@@ -42,7 +42,7 @@ export function NewsCard({ item, onNewsUpdated }: {
         method: 'DELETE'
       });
 
-      if (!res.ok) throw new Error('Gagal menghapus laporan');
+      if (!res.ok) throw new Error(await res.text() || 'Gagal menghapus laporan');
 
       toast({
         title: "Berhasil",
@@ -51,10 +51,18 @@ export function NewsCard({ item, onNewsUpdated }: {
       });
 
       onNewsUpdated();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      let errorMessage = "Gagal menghapus laporan";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+
       toast({
         title: "Gagal",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
@@ -134,7 +142,7 @@ export function NewsCard({ item, onNewsUpdated }: {
           <AlertDialogHeader>
             <AlertDialogTitle>Konfirmasi Penghapusan</AlertDialogTitle>
             <AlertDialogDescription>
-              Apakah Anda yakin ingin menghapus laporan "{item.title}"? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus laporan &quot;{item.title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

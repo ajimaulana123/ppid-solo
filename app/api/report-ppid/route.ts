@@ -46,17 +46,6 @@ export async function GET(request: Request) {
 
     const totalPages = Math.ceil(totalQuery[0].count / limit);
 
-    console.log({
-      data: allNews,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalItems: totalQuery[0].count,
-        itemsPerPage: limit,
-        searchQuery: search
-      }
-    })
-
     return NextResponse.json({
       data: allNews,
       pagination: {
@@ -115,7 +104,7 @@ export async function POST(request: Request) {
     }
 
     // Database operation
-    const [newNews] = await db.insert(reportPpid)
+await db.insert(reportPpid)
       .values({
         title,
         content,

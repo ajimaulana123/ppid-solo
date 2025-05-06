@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { DialogEditNews } from "@/components/admin/laporan/survei/NewsFormEditDialog";
+import { DialogEditNews } from "@/components/admin/news/NewsFormEditDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,23 +38,23 @@ export function NewsCard({ item, onNewsUpdated }: {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const res = await fetch(`/api/survei/${item.id}`, {
+      const res = await fetch(`/api/news/${item.id}`, {
         method: 'DELETE'
       });
 
-      if (!res.ok) throw new Error('Gagal menghapus laporan');
+      if (!res.ok) throw new Error('Gagal menghapus berita');
 
       toast({
         title: "Berhasil",
-        description: "Laporan telah dihapus",
+        description: "Berita telah dihapus",
         variant: "default"
       });
 
       onNewsUpdated();
-    } catch (error: any) {
+    } catch (error) {
       toast({
         title: "Gagal",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan',
         variant: "destructive"
       });
     } finally {
@@ -65,7 +65,7 @@ export function NewsCard({ item, onNewsUpdated }: {
 
   return (
     <div className="group relative">
-      {/* Dialog untuk edit laporan */}
+      {/* Dialog untuk edit berita */}
       <DialogEditNews
         news={{
           id: item.id,
@@ -76,8 +76,8 @@ export function NewsCard({ item, onNewsUpdated }: {
         onNewsUpdated={onNewsUpdated}
       />
 
-      {/* Konten laporan */}
-      <Link href={`/admin/laporan/survei/${item.id}`} passHref legacyBehavior>
+      {/* Konten berita */}
+      <Link href={`/admin/berita/surakarta/${item.id}`} passHref legacyBehavior>
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer">
           <div className="relative h-48 w-full">
             <Image
@@ -134,7 +134,7 @@ export function NewsCard({ item, onNewsUpdated }: {
           <AlertDialogHeader>
             <AlertDialogTitle>Konfirmasi Penghapusan</AlertDialogTitle>
             <AlertDialogDescription>
-              Apakah Anda yakin ingin menghapus laporan "{item.title}"? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus berita &quot;{item.title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

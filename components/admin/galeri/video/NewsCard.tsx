@@ -42,7 +42,10 @@ export function NewsCard({ item, onNewsUpdated }: {
         method: 'DELETE'
       });
 
-      if (!res.ok) throw new Error('Gagal menghapus Video');
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Gagal menghapus Video');
+      }
 
       toast({
         title: "Berhasil",
@@ -51,10 +54,10 @@ export function NewsCard({ item, onNewsUpdated }: {
       });
 
       onNewsUpdated();
-    } catch (error: any) {
+    } catch (error) {
       toast({
         title: "Gagal",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan saat menghapus video',
         variant: "destructive"
       });
     } finally {
@@ -65,7 +68,6 @@ export function NewsCard({ item, onNewsUpdated }: {
 
   return (
     <div className="group relative">
-      {/* Dialog untuk edit laporan */}
       <DialogEditNews
         news={{
           id: item.id,
@@ -76,7 +78,6 @@ export function NewsCard({ item, onNewsUpdated }: {
         onNewsUpdated={onNewsUpdated}
       />
 
-      {/* Konten laporan */}
       <Link href={`/admin/galeri/video/${item.id}`} passHref legacyBehavior>
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer">
           <div className="relative h-48 w-full">
@@ -117,7 +118,6 @@ export function NewsCard({ item, onNewsUpdated }: {
         </div>
       </Link>
 
-      {/* Tombol Hapus */}
       <div className="absolute top-4 right-4">
         <Button 
           variant="destructive" 
@@ -128,13 +128,12 @@ export function NewsCard({ item, onNewsUpdated }: {
         </Button>
       </div>
 
-      {/* Dialog Konfirmasi Hapus */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Konfirmasi Penghapusan</AlertDialogTitle>
             <AlertDialogDescription>
-              Apakah Anda yakin ingin menghapus laporan "{item.title}"? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus laporan &quot;{item.title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

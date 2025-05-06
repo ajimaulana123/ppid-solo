@@ -10,11 +10,11 @@ import { Form } from "@/components/ui/form";
 import { NewsFormFields } from "./NewsFormFields";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { Loader2 } from "lucide-react"; // Import Loader2 dari lucide-react
+import { Loader2 } from "lucide-react";
 
 export function DialogNews({ onNewsAdded }: { onNewsAdded?: () => void }) {
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false); // State untuk loading
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   
   const form = useForm<NewsSchema>({
@@ -27,7 +27,7 @@ export function DialogNews({ onNewsAdded }: { onNewsAdded?: () => void }) {
   });
 
   const onSubmit = async (data: NewsSchema) => {
-    setIsSubmitting(true); // Aktifkan loading state
+    setIsSubmitting(true);
     try {
       const formData = new FormData();
       formData.append('title', data.title);
@@ -39,7 +39,9 @@ export function DialogNews({ onNewsAdded }: { onNewsAdded?: () => void }) {
         body: formData
       });
 
-      if (!res.ok) throw new Error('Gagal menambahkan laporan');
+      if (!res.ok) {
+        throw new Error(await res.text() || 'Gagal menambahkan laporan');
+      }
 
       toast({
         title: "Berhasil",
@@ -50,14 +52,18 @@ export function DialogNews({ onNewsAdded }: { onNewsAdded?: () => void }) {
       form.reset();
       setOpen(false);
       onNewsAdded?.();
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed from any to unknown
+      let errorMessage = 'Terjadi kesalahan';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       toast({
         title: "Gagal",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
-      setIsSubmitting(false); // Matikan loading state
+      setIsSubmitting(false);
     }
   };
 
@@ -78,7 +84,7 @@ export function DialogNews({ onNewsAdded }: { onNewsAdded?: () => void }) {
             <Button 
               type="submit" 
               className="w-full"
-              disabled={isSubmitting} // Disable tombol saat loading
+              disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <>

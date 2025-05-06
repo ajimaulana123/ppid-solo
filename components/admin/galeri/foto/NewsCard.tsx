@@ -42,7 +42,9 @@ export function NewsCard({ item, onNewsUpdated }: {
         method: 'DELETE'
       });
 
-      if (!res.ok) throw new Error('Gagal menghapus foto');
+      if (!res.ok) {
+        throw new Error('Gagal menghapus foto');
+      }
 
       toast({
         title: "Berhasil",
@@ -51,10 +53,11 @@ export function NewsCard({ item, onNewsUpdated }: {
       });
 
       onNewsUpdated();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan saat menghapus foto';
       toast({
         title: "Gagal",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
@@ -134,7 +137,7 @@ export function NewsCard({ item, onNewsUpdated }: {
           <AlertDialogHeader>
             <AlertDialogTitle>Konfirmasi Penghapusan</AlertDialogTitle>
             <AlertDialogDescription>
-              Apakah Anda yakin ingin menghapus laporan "{item.title}"? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus laporan &quot;{item.title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

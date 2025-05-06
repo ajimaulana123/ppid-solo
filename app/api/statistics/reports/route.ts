@@ -24,12 +24,6 @@ export async function GET() {
       db.select({ count: count() }).from(survei)
     ])
 
-    console.log('Total counts:', {
-      lkpd: lkpdTotal[0]?.count,
-      ppid: ppidTotal[0]?.count,
-      survei: surveiTotal[0]?.count
-    })
-
     // 3. Dapatkan data harian 7 hari terakhir dengan Drizzle ORM
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6) // 7 hari termasuk hari ini
@@ -113,8 +107,6 @@ export async function GET() {
 
       return result
     })
-
-    console.log('Daily data:', dailyData)
 
     // 4. Format response
     const response = {

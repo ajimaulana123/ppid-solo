@@ -50,7 +50,6 @@ export function DialogEditNews({ news, onNewsUpdated, children }: DialogEditNews
         handleSubmit,
         formState: { errors },
         setValue,
-        watch,
     } = useForm<NewsSchema>({
         resolver: zodResolver(newsSchema),
         defaultValues: {

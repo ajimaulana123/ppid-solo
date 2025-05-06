@@ -51,10 +51,10 @@ export function NewsCard({ item, onNewsUpdated }: {
       });
 
       onNewsUpdated();
-    } catch (error: any) {
+    } catch (error) {
       toast({
         title: "Gagal",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan saat menghapus podcast',
         variant: "destructive"
       });
     } finally {
@@ -134,7 +134,7 @@ export function NewsCard({ item, onNewsUpdated }: {
           <AlertDialogHeader>
             <AlertDialogTitle>Konfirmasi Penghapusan</AlertDialogTitle>
             <AlertDialogDescription>
-              Apakah Anda yakin ingin menghapus laporan "{item.title}"? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus laporan &quot;{item.title}&quot;? Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
