@@ -12,10 +12,9 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get('limit')) || 10
     const search = searchParams.get('search') || ''
 
-    // Always start at page 1 when searching (if there are results)
     const page = search ? 1 : rawPage
 
-    // Count query - use raw SQL for reliability
+    // Count query
     const countSql = search
       ? sql`SELECT COUNT(*) FROM "RequestPeople" 
            WHERE "fullName" ILIKE ${`%${search}%`}`
@@ -42,12 +41,9 @@ export async function GET(request: Request) {
       .limit(limit)
       .offset((page - 1) * limit)
 
-    // Calculate pagination metadata
     const totalPages = Math.ceil(total / limit)
     const hasNextPage = page * limit < total
     const hasPreviousPage = page > 1
-
-    // Ensure pagination is always shown when there are results
     const showPagination = total > 0
 
     return NextResponse.json({
@@ -59,15 +55,30 @@ export async function GET(request: Request) {
         totalPages,
         hasNextPage,
         hasPreviousPage,
-        showPagination, // Explicit flag for UI
+        showPagination,
         currentSearch: search,
-      },
+      }
+    }, {
+      // Headers ditempatkan di sini, sebagai parameter kedua
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'CDN-Cache-Control': 'no-cache',
+        'Vercel-CDN-Cache-Control': 'no-cache'
+      }
     })
   } catch (error) {
-    console.error('Error fetching submissions:', error)
+    console.error('Error fetching request people:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch submissions' },
-      { status: 500 }
+      { error: 'Failed to fetch request people' },
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      }
     )
   }
 }

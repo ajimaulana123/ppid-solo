@@ -11,7 +11,6 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import { BarChart } from "@tremor/react";
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
@@ -70,7 +69,7 @@ export function TabsStatistik() {
                                         </CardHeader>
                                         <CardContent>
                                             <p className="text-3xl font-bold">
-                                                {submissionData?.data?.total || 0}
+                                                {requestData?.data?.total || 0}
                                             </p>
                                         </CardContent>
                                     </Card>
@@ -113,25 +112,6 @@ export function TabsStatistik() {
                                                     </Pie>
                                                 </PieChart>
                                             </ResponsiveContainer>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Pengajuan 7 Hari Terakhir</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="p-2 sm:p-4">
-                                        <div className="w-full h-[250px] sm:h-[300px] lg:h-[350px]">
-                                            <BarChart
-                                                data={requestData?.data?.daily || []}
-                                                index="date"
-                                                categories={["count"]}
-                                                colors={["blue"]}
-                                                yAxisWidth={40}
-                                                showLegend={false}
-                                                valueFormatter={(value) => value.toString()}
-                                                className="h-full"
-                                            />
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -208,25 +188,6 @@ export function TabsStatistik() {
                                                     </Pie>
                                                 </PieChart>
                                             </ResponsiveContainer>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Pengajuan 7 Hari Terakhir</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="p-2 sm:p-4">
-                                        <div className="w-full h-[250px] sm:h-[300px] lg:h-[350px]">
-                                            <BarChart
-                                                data={submissionData?.data?.daily || []}
-                                                index="date"
-                                                categories={["count"]}
-                                                colors={["blue"]}
-                                                yAxisWidth={40}
-                                                showLegend={false}
-                                                valueFormatter={(value) => value.toString()}
-                                                className="h-full"
-                                            />
                                         </div>
                                     </CardContent>
                                 </Card>

@@ -79,7 +79,9 @@ export default function PublicInformationTable() {
   const fetchDocuments = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/public-information?page=${page}&limit=10&search=${searchTerm}`);
+      const res = await fetch(`/api/public-information?page=${page}&limit=10&search=${searchTerm}`, {
+        cache: 'no-store'
+    });
       if (!res.ok) throw new Error('Failed to fetch information');
       
       const data: ApiResponse<PublicInformation> = await res.json();

@@ -34,7 +34,9 @@ interface ReportStats {
 }
 
 async function fetchReportStats(): Promise<ReportStats> {
-  const res = await fetch('/api/statistics/reports')
+  const res = await fetch('/api/statistics/reports', {
+    cache: 'no-store'
+})
   if (!res.ok) {
     const errorData = await res.json()
     throw new Error(errorData.error || 'Failed to fetch report statistics')

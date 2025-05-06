@@ -57,10 +57,26 @@ export function TabsCekStatus() {
   const [activeTab, setActiveTab] = useState<'cekStatusPermohonan' | 'cekStatusPengajuan'>('cekStatusPermohonan');
   const [requestPeople, setRequestPeople] = useState<RequestPerson[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
+  const [permohonanSearch, setPermohonanSearch] = useState('');
+  const [pengajuanSearch, setPengajuanSearch] = useState('');
+  const [currentPermohonanSearch, setCurrentPermohonanSearch] = useState('');
+  const [currentPengajuanSearch, setCurrentPengajuanSearch] = useState('');
+  const [permohonanPage, setPermohonanPage] = useState(1);
+  const [pengajuanPage, setPengajuanPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [meta, setMeta] = useState({
+  
+  const [permohonanMeta, setPermohonanMeta] = useState({
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+    showPagination: false,
+    currentSearch: '',
+  });
+  
+  const [pengajuanMeta, setPengajuanMeta] = useState({
     total: 0,
     page: 1,
     limit: 10,
@@ -71,45 +87,109 @@ export function TabsCekStatus() {
     currentSearch: '',
   });
 
-  const fetchRequestPeople = useCallback(async () => {
+  // Auto-refresh interval (30 detik)
+  const REFRESH_INTERVAL = 30000;
+
+  const fetchRequestPeople = useCallback(async (search: string, page: number) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/status-check-request?page=${page}&limit=10&search=${search}`);
+      const url = new URL('/api/status-check-request', window.location.origin);
+      url.searchParams.append('page', page.toString());
+      url.searchParams.append('limit', '10');
+      url.searchParams.append('search', search);
+      url.searchParams.append('timestamp', Date.now().toString());
+      
+      const response = await fetch(url.toString(), {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
       const data: ApiResponse<RequestPerson> = await response.json();
       setRequestPeople(data.data);
-      setMeta(data.meta);
+      setPermohonanMeta(data.meta);
+      setCurrentPermohonanSearch(search);
     } catch (error) {
       console.error('Error fetching request people:', error);
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, []);
 
-  const fetchSubmissions = useCallback(async () => {
+  const fetchSubmissions = useCallback(async (search: string, page: number) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/status-check-submission?page=${page}&limit=10&search=${search}`);
+      const url = new URL('/api/status-check-submission', window.location.origin);
+      url.searchParams.append('page', page.toString());
+      url.searchParams.append('limit', '10');
+      url.searchParams.append('search', search);
+      url.searchParams.append('timestamp', Date.now().toString());
+      
+      const response = await fetch(url.toString(), {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
       const data: ApiResponse<Submission> = await response.json();
       setSubmissions(data.data);
-      setMeta(data.meta);
+      setPengajuanMeta(data.meta);
+      setCurrentPengajuanSearch(search);
     } catch (error) {
       console.error('Error fetching submissions:', error);
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, []);
 
+  // Auto-refresh effect
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (activeTab === 'cekStatusPermohonan') {
+        fetchRequestPeople(currentPermohonanSearch, permohonanPage);
+      } else {
+        fetchSubmissions(currentPengajuanSearch, pengajuanPage);
+      }
+    }, REFRESH_INTERVAL);
+
+    return () => clearInterval(intervalId);
+  }, [activeTab, currentPermohonanSearch, currentPengajuanSearch, permohonanPage, pengajuanPage, fetchRequestPeople, fetchSubmissions]);
+
+  // Load initial data
   useEffect(() => {
     if (activeTab === 'cekStatusPermohonan') {
-      fetchRequestPeople();
+      fetchRequestPeople('', 1);
     } else {
-      fetchSubmissions();
+      fetchSubmissions('', 1);
     }
   }, [activeTab, fetchRequestPeople, fetchSubmissions]);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handlePermohonanSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setPage(1); // Reset to first page when searching
+    setPermohonanPage(1);
+    fetchRequestPeople(permohonanSearch, 1);
+  };
+
+  const handlePengajuanSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPengajuanPage(1);
+    fetchSubmissions(pengajuanSearch, 1);
+  };
+
+  const handlePermohonanPageChange = (newPage: number) => {
+    setPermohonanPage(newPage);
+    fetchRequestPeople(currentPermohonanSearch, newPage);
+  };
+
+  const handlePengajuanPageChange = (newPage: number) => {
+    setPengajuanPage(newPage);
+    fetchSubmissions(currentPengajuanSearch, newPage);
   };
 
   const getStatusColor = (status: string) => {
@@ -120,6 +200,14 @@ export function TabsCekStatus() {
         return 'bg-red-100 text-red-800';
       default:
         return 'bg-yellow-100 text-yellow-800';
+    }
+  };
+
+  const handleManualRefresh = () => {
+    if (activeTab === 'cekStatusPermohonan') {
+      fetchRequestPeople(currentPermohonanSearch, permohonanPage);
+    } else {
+      fetchSubmissions(currentPengajuanSearch, pengajuanPage);
     }
   };
 
@@ -137,25 +225,41 @@ export function TabsCekStatus() {
       <TabsContent value="cekStatusPermohonan">
         <Card>
           <CardHeader>
-            <CardTitle>Cek Status Permohonan</CardTitle>
-            <CardDescription>
-              Cari dan lihat status permohonan Anda
-            </CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle>Cek Status Permohonan</CardTitle>
+                <CardDescription>
+                  Cari dan lihat status permohonan Anda
+                </CardDescription>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleManualRefresh}
+                disabled={loading}
+              >
+                {loading ? 'Memuat...' : 'Refresh'}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSearch} className="mb-4">
+            <form onSubmit={handlePermohonanSearch} className="mb-4">
               <div className="flex gap-2">
                 <Input 
                   placeholder="Cari berdasarkan nama..." 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={permohonanSearch}
+                  onChange={(e) => setPermohonanSearch(e.target.value)}
                 />
-                <Button type="submit">Cari</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? 'Mencari...' : 'Cari'}
+                </Button>
               </div>
             </form>
 
-            {loading ? (
-              <div className="text-center py-4">Memuat data...</div>
+            {loading && activeTab === 'cekStatusPermohonan' ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              </div>
             ) : requestPeople.length > 0 ? (
               <>
                 <Table>
@@ -171,7 +275,7 @@ export function TabsCekStatus() {
                   <TableBody>
                     {requestPeople.map((person, index) => (
                       <TableRow key={person.id}>
-                        <TableCell>{(meta.page - 1) * meta.limit + index + 1}</TableCell>
+                        <TableCell>{(permohonanMeta.page - 1) * permohonanMeta.limit + index + 1}</TableCell>
                         <TableCell>{person.fullName}</TableCell>
                         <TableCell>{person.detailInformation}</TableCell>
                         <TableCell>
@@ -185,25 +289,25 @@ export function TabsCekStatus() {
                   </TableBody>
                 </Table>
 
-                {meta.showPagination && (
+                {permohonanMeta.showPagination && (
                   <div className="mt-4 flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-600">
-                        Menampilkan {(meta.page - 1) * meta.limit + 1} - {Math.min(meta.page * meta.limit, meta.total)} dari {meta.total} data
+                        Menampilkan {(permohonanMeta.page - 1) * permohonanMeta.limit + 1} - {Math.min(permohonanMeta.page * permohonanMeta.limit, permohonanMeta.total)} dari {permohonanMeta.total} data
                       </p>
                     </div>
                     <div className="flex gap-2">
                       <Button 
                         variant="outline" 
-                        disabled={!meta.hasPreviousPage}
-                        onClick={() => setPage(meta.page - 1)}
+                        disabled={!permohonanMeta.hasPreviousPage || loading}
+                        onClick={() => handlePermohonanPageChange(permohonanMeta.page - 1)}
                       >
                         Previous
                       </Button>
                       <Button 
                         variant="outline" 
-                        disabled={!meta.hasNextPage}
-                        onClick={() => setPage(meta.page + 1)}
+                        disabled={!permohonanMeta.hasNextPage || loading}
+                        onClick={() => handlePermohonanPageChange(permohonanMeta.page + 1)}
                       >
                         Next
                       </Button>
@@ -213,7 +317,7 @@ export function TabsCekStatus() {
               </>
             ) : (
               <div className="text-center py-4">
-                {search ? 'Tidak ditemukan data yang sesuai dengan pencarian' : 'Tidak ada data permohonan'}
+                {currentPermohonanSearch ? 'Tidak ditemukan data yang sesuai dengan pencarian' : 'Tidak ada data permohonan'}
               </div>
             )}
           </CardContent>
@@ -223,25 +327,41 @@ export function TabsCekStatus() {
       <TabsContent value="cekStatusPengajuan">
         <Card>
           <CardHeader>
-            <CardTitle>Cek Status Pengajuan</CardTitle>
-            <CardDescription>
-              Cari dan lihat status pengajuan Anda
-            </CardDescription>
+            <div className="flex justify-between items-start">
+              <div>
+                <CardTitle>Cek Status Pengajuan</CardTitle>
+                <CardDescription>
+                  Cari dan lihat status pengajuan Anda
+                </CardDescription>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleManualRefresh}
+                disabled={loading}
+              >
+                {loading ? 'Memuat...' : 'Refresh'}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSearch} className="mb-4">
+            <form onSubmit={handlePengajuanSearch} className="mb-4">
               <div className="flex gap-2">
                 <Input 
                   placeholder="Cari berdasarkan nama..." 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  value={pengajuanSearch}
+                  onChange={(e) => setPengajuanSearch(e.target.value)}
                 />
-                <Button type="submit">Cari</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading ? 'Mencari...' : 'Cari'}
+                </Button>
               </div>
             </form>
 
-            {loading ? (
-              <div className="text-center py-4">Memuat data...</div>
+            {loading && activeTab === 'cekStatusPengajuan' ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              </div>
             ) : submissions.length > 0 ? (
               <>
                 <Table>
@@ -257,7 +377,7 @@ export function TabsCekStatus() {
                   <TableBody>
                     {submissions.map((submission, index) => (
                       <TableRow key={submission.id}>
-                        <TableCell>{(meta.page - 1) * meta.limit + index + 1}</TableCell>
+                        <TableCell>{(pengajuanMeta.page - 1) * pengajuanMeta.limit + index + 1}</TableCell>
                         <TableCell>{submission.fullName}</TableCell>
                         <TableCell>{submission.chronology}</TableCell>
                         <TableCell>
@@ -271,25 +391,25 @@ export function TabsCekStatus() {
                   </TableBody>
                 </Table>
 
-                {meta.showPagination && (
+                {pengajuanMeta.showPagination && (
                   <div className="mt-4 flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-600">
-                        Menampilkan {(meta.page - 1) * meta.limit + 1} - {Math.min(meta.page * meta.limit, meta.total)} dari {meta.total} data
+                        Menampilkan {(pengajuanMeta.page - 1) * pengajuanMeta.limit + 1} - {Math.min(pengajuanMeta.page * pengajuanMeta.limit, pengajuanMeta.total)} dari {pengajuanMeta.total} data
                       </p>
                     </div>
                     <div className="flex gap-2">
                       <Button 
                         variant="outline" 
-                        disabled={!meta.hasPreviousPage}
-                        onClick={() => setPage(meta.page - 1)}
+                        disabled={!pengajuanMeta.hasPreviousPage || loading}
+                        onClick={() => handlePengajuanPageChange(pengajuanMeta.page - 1)}
                       >
                         Previous
                       </Button>
                       <Button 
                         variant="outline" 
-                        disabled={!meta.hasNextPage}
-                        onClick={() => setPage(meta.page + 1)}
+                        disabled={!pengajuanMeta.hasNextPage || loading}
+                        onClick={() => handlePengajuanPageChange(pengajuanMeta.page + 1)}
                       >
                         Next
                       </Button>
@@ -299,7 +419,7 @@ export function TabsCekStatus() {
               </>
             ) : (
               <div className="text-center py-4">
-                {search ? 'Tidak ditemukan data yang sesuai dengan pencarian' : 'Tidak ada data pengajuan'}
+                {currentPengajuanSearch ? 'Tidak ditemukan data yang sesuai dengan pencarian' : 'Tidak ada data pengajuan'}
               </div>
             )}
           </CardContent>

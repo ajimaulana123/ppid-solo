@@ -1,7 +1,7 @@
 // Perbaikan API route (app/api/request/[id]/route.ts)
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { contactUs } from '@/lib/schemaDb'
+import { requestPeople } from '@/lib/schemaDb'
 import { z } from 'zod'
 import { eq } from 'drizzle-orm'
 
@@ -23,12 +23,12 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     const rawBody = await req.json()
     const validatedData = updateStatusSchema.parse(rawBody)
 
-    const [updated] = await db.update(contactUs)
+    const [updated] = await db.update(requestPeople)
       .set({ 
         requestStatus: validatedData.requestStatus,
         updatedAt: new Date()
       })
-      .where(eq(contactUs.id, Number(id)))
+      .where(eq(requestPeople.id, Number(id)))
       .returning()
 
     if (!updated) {

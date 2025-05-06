@@ -29,11 +29,20 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { HeroSections } from '@/components/entities/HeroSections';
 
+const ReasonOptions = {
+  PENOLAKAN_1: "Penolakan atas informasi berdasarkan alasan pengecualian sebagaimana dimaksud dalam pasal 17 UU No. 14 tahun 2008.",
+  PENOLAKAN_2: "Tidak ditanggapinya permintaan Informasi.",
+  PENOLAKAN_3: "Tidak dipenuhi permintaan Informasi.",
+  PENOLAKAN_4: "Penyampaian informasi melebihi jangka waktu yang diatur dalam UU No. 14 tahun 2008.",
+  PENOLAKAN_5: "Tidak disediakannya informasi berkala.",
+  PENOLAKAN_6: "Pengenaan biaya yang tidak wajar."
+} as const;
+
 type Submission = {
   id: number;
   fullName: string;
   nik: string;
-  reasonOfSubmission: string[];
+  reasonOfSubmission: (keyof typeof ReasonOptions)[];
   chronology: string;
   requestStatus: 'sedang diproses' | 'ditolak' | 'selesai diproses';
   createdAt: string;
@@ -73,7 +82,9 @@ export default function AdminSubmissionDashboard() {
   const fetchSubmissions = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/status-check-submission?page=${page}&limit=10&search=${search}`);
+      const response = await fetch(`/api/status-check-submission?page=${page}&limit=10&search=${search}`, {
+        cache: 'no-store'
+      });
       const data: ApiResponse<Submission> = await response.json();
 
       setSubmissions(data.data);
@@ -169,6 +180,10 @@ export default function AdminSubmissionDashboard() {
     }
   };
 
+  const getReasonText = (reasonKey: keyof typeof ReasonOptions) => {
+    return ReasonOptions[reasonKey];
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <main>
@@ -222,11 +237,11 @@ export default function AdminSubmissionDashboard() {
                               <TableCell className="font-medium">{submission.fullName}</TableCell>
                               <TableCell>{submission.nik}</TableCell>
                               <TableCell>
-                                <div className="flex flex-wrap gap-1">
+                                <div className="flex flex-col gap-1">
                                   {submission.reasonOfSubmission.map((reason, i) => (
-                                    <Badge key={i} variant="outline" className="whitespace-nowrap">
-                                      {reason}
-                                    </Badge>
+                                    <div key={i} className="text-sm">
+                                      {getReasonText(reason)}
+                                    </div>
                                   ))}
                                 </div>
                               </TableCell>

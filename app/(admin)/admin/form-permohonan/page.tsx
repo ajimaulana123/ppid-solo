@@ -74,7 +74,9 @@ export default function AdminRequestDashboard() {
   const fetchRequests = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/status-check-request?page=${page}&limit=10&search=${search}`);
+      const response = await fetch(`/api/status-check-request?page=${page}&limit=10&search=${search}`, {
+        cache: 'no-store'
+    });
       const data: ApiResponse<RequestPerson> = await response.json();
       setRequests(data.data);
       setMeta({
