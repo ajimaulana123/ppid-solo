@@ -4,6 +4,8 @@ import { submission } from '@/lib/schemaDb'
 import { submissionFormSchema } from '@/lib/submission/schemaSubmissionForm'
 import { z } from 'zod' // Tambahkan import ini
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const rawBody = await req.json()

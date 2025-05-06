@@ -5,6 +5,8 @@ import { submission } from '@/lib/schemaDb'
 import { z } from 'zod'
 import { eq } from 'drizzle-orm'
 
+export const dynamic = 'force-dynamic';
+
 const updateStatusSchema = z.object({
   requestStatus: z.enum(['sedang diproses', 'ditolak', 'selesai diproses'])
 })
